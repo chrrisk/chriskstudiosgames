@@ -1,0 +1,2 @@
+src/react-app/App.css:188:.lab-status {
+src/react-app/App.tsx:466:						{isSearching ? <span className="lab-status">Searching…</span> : null}
