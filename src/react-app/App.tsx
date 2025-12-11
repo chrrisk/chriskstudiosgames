@@ -71,7 +71,7 @@ function mergeCategoryMap<T>(incoming: Partial<Record<CategoryKey, T>> | undefin
 	} as Record<CategoryKey, T>;
 }
 
-const snippetDurations = [0.25, 0.5, 1, 2, 5, 10, 15];
+const snippetDurations = [0.5, 1, 2, 5, 10, 15];
 const FULL_REVEAL_DURATION = 30;
 const STORAGE_KEY = "songgame-daily-state";
 
@@ -219,6 +219,7 @@ function SongGameLab() {
 	const [dateKey, setDateKey] = useState(() => getEasternDateKey());
 	const [isHydrated, setIsHydrated] = useState(false);
 	const [solvedAtMap, setSolvedAtMap] = useState<Record<CategoryKey, number | null>>(createInitialSolvedAt);
+	const [resetCountdown, setResetCountdown] = useState(() => formatCountdownLabel(getMillisecondsUntilNextEasternReset()));
 	const audioRef = useRef<HTMLAudioElement | null>(null);
 	const snippetTimeoutRef = useRef<number | null>(null);
 	const shareFeedbackTimeoutRef = useRef<number | null>(null);
@@ -228,7 +229,6 @@ function SongGameLab() {
 	const revealStep = revealSteps[activeCategory] ?? 0;
 	const guessHistory = guessHistories[activeCategory] ?? [];
 	const isWinner = winners[activeCategory] ?? false;
-	const solvedAt = solvedAtMap[activeCategory] ?? null;
 	const selectedTrack = selectedTracks[activeCategory] ?? null;
 	const isFailed = failures[activeCategory] ?? false;
 	const allCategoriesFinished = CATEGORY_KEYS.every((key) => winners[key] || failures[key]);
@@ -354,15 +354,24 @@ function SongGameLab() {
 		window.localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
 	}, [dateKey, activeCategory, revealSteps, guessHistories, winners, failures, solvedAtMap, selectedTracks, isHydrated]);
 
-useEffect(() => {
-	const intervalId = window.setInterval(() => {
-		const newKey = getEasternDateKey();
-		if (newKey !== dateKey) {
-			resetGameState(newKey);
+	useEffect(() => {
+		const intervalId = window.setInterval(() => {
+			const newKey = getEasternDateKey();
+			if (newKey !== dateKey) {
+				resetGameState(newKey);
 			}
 		}, 60000);
-	return () => window.clearInterval(intervalId);
-}, [dateKey]);
+		return () => window.clearInterval(intervalId);
+	}, [dateKey]);
+
+	useEffect(() => {
+		const updateCountdown = () => {
+			setResetCountdown(formatCountdownLabel(getMillisecondsUntilNextEasternReset()));
+		};
+		updateCountdown();
+		const countdownId = window.setInterval(updateCountdown, 1000);
+		return () => window.clearInterval(countdownId);
+	}, []);
 
 	useEffect(() => {
 		const fetchDaily = async () => {
@@ -508,17 +517,18 @@ const getCategoryStatus = (key: CategoryKey): CategoryStatus => {
 		const summary = getCategorySummaries()
 			.map((entry) => entry.shareLine)
 			.join("\n");
-		const message = `🎧 My songgame results 🎧\n${summary}\nPlay it: https://play.chriskstudios.com`;
+		const baseMessage = `🎧 My songgame results 🎧\n${summary}`;
+		const shareUrl = "https://play.chriskstudios.com";
 		try {
 			if (typeof navigator !== "undefined" && navigator.share) {
 				await navigator.share({
 					title: "My songgame results",
-					text: message,
-					url: "https://play.chriskstudios.com",
+					text: baseMessage,
+					url: shareUrl,
 				});
 				setShareFeedback({ message: "Shared! 🎉", context });
 			} else if (typeof navigator !== "undefined" && navigator.clipboard?.writeText) {
-				await navigator.clipboard.writeText(message);
+				await navigator.clipboard.writeText(`${baseMessage}\nPlay it: ${shareUrl}`);
 				setShareFeedback({ message: "Results copied! 📋", context });
 			} else {
 				setShareFeedback({ message: "Sharing not supported here. Copy manually.", context });
@@ -577,13 +587,12 @@ const getCategoryStatus = (key: CategoryKey): CategoryStatus => {
 		if (isAtMaxReveal) {
 			const updatedFailures = { ...failures, [activeCategory]: true };
 			setFailures(updatedFailures);
-			const failMessage = `Out of time! Today's ${CATEGORY_LABELS[activeCategory].title} track was ${currentTrack.name} — ${currentTrack.artists}.`;
 			const playedFull = playSegment(FULL_REVEAL_DURATION, { suppressMissingMessage: true });
-			setGameMessage(playedFull ? failMessage : `${failMessage} Preview unavailable.`);
+			setGameMessage(playedFull ? "Out of time! Try again tomorrow." : "Out of time! Preview unavailable today.");
 			triggerCompletionModal(activeCategory, "failure", winners, updatedFailures);
 		} else {
 			setRevealSteps((prev) => ({ ...prev, [activeCategory]: nextIndex }));
-			setGameMessage("Skipping ahead unlocked more audio.");
+			setGameMessage(null);
 		}
 	};
 
@@ -639,12 +648,11 @@ const getCategoryStatus = (key: CategoryKey): CategoryStatus => {
 			if (reachedMax) {
 				const updatedFailures = { ...failures, [activeCategory]: true };
 				setFailures(updatedFailures);
-				const failMessage = `Out of time! Today's ${CATEGORY_LABELS[activeCategory].title} track was ${currentTrack.name} — ${currentTrack.artists}.`;
 				const playedFull = playSegment(FULL_REVEAL_DURATION, { suppressMissingMessage: true });
-				setGameMessage(playedFull ? failMessage : `${failMessage} Preview unavailable.`);
+				setGameMessage(playedFull ? "Out of time! Try again tomorrow." : "Out of time! Preview unavailable today.");
 				triggerCompletionModal(activeCategory, "failure", winners, updatedFailures);
 			} else {
-				setGameMessage("Not quite. Listen again or try another guess.");
+				setGameMessage(null);
 			}
 		}
 	};
@@ -691,6 +699,10 @@ const getCategoryStatus = (key: CategoryKey): CategoryStatus => {
 						value={volume}
 						onChange={(event) => setVolume(Number(event.target.value))}
 					/>
+				</div>
+				<div className="reset-countdown">
+					<span>Next songs in</span>
+					<strong>{resetCountdown}</strong>
 				</div>
 			</header>
 			<main className="doc lab-doc">
@@ -740,11 +752,6 @@ const getCategoryStatus = (key: CategoryKey): CategoryStatus => {
 				<p className="lab-hint">
 					{formatSecondsLabel(currentSnippetLength)}s unlocked of {formatSecondsLabel(totalSnippetLength)}s total
 				</p>
-				{isWinner && solvedAt !== null ? (
-					<p className="lab-solved-callout">
-						Solved {CATEGORY_LABELS[activeCategory].title} in {formatSecondsLabel(solvedAt)}s — full clip unlocked.
-					</p>
-				) : null}
 			</div>
 			<div className="lab-controls">
 				<button
@@ -936,6 +943,7 @@ const getCategoryStatus = (key: CategoryKey): CategoryStatus => {
 								</li>
 							))}
 						</ul>
+						<p className="lab-hint next-reset-hint">Next songs in {resetCountdown}</p>
 						<div className="modal-actions">
 							<button
 								className="primary-btn"
@@ -1030,6 +1038,26 @@ function getEasternDateKey() {
 
 function formatSecondsLabel(value: number) {
 	return Number.isInteger(value) ? value.toString() : value.toFixed(1).replace(/\.0$/, "");
+}
+
+function getMillisecondsUntilNextEasternReset() {
+	const now = new Date();
+	const easternNow = new Date(now.toLocaleString("en-US", { timeZone: "America/New_York" }));
+	const easternMidnight = new Date(easternNow);
+	easternMidnight.setHours(24, 0, 0, 0);
+	return Math.max(0, easternMidnight.getTime() - easternNow.getTime());
+}
+
+function formatCountdownLabel(ms: number) {
+	const totalSeconds = Math.max(0, Math.floor(ms / 1000));
+	const hours = Math.floor(totalSeconds / 3600)
+		.toString()
+		.padStart(2, "0");
+	const minutes = Math.floor((totalSeconds % 3600) / 60)
+		.toString()
+		.padStart(2, "0");
+	const seconds = (totalSeconds % 60).toString().padStart(2, "0");
+	return `${hours}:${minutes}:${seconds}`;
 }
 
 function useClickSound() {

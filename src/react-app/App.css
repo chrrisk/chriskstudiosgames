@@ -258,6 +258,7 @@
 	border: 1px solid rgba(255, 255, 255, 0.2);
 	background: rgba(3, 6, 15, 0.6);
 	color: #e7ebf5;
+	font-size: 1rem;
 }
 
 .lab-status {
@@ -670,6 +671,11 @@
 	.lab-actions {
 		width: 100%;
 	}
+
+	.reset-countdown {
+		align-items: flex-start;
+		text-align: left;
+	}
 }
 .volume-top-control {
 	display: flex;
@@ -682,6 +688,28 @@
 
 .volume-top-control input[type="range"] {
 	width: 140px;
+}
+
+.reset-countdown {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-end;
+	gap: 0.15rem;
+	font-size: 0.9rem;
+	color: #9aa6c1;
+	text-align: right;
+}
+
+.reset-countdown strong {
+	font-size: 1.2rem;
+	color: #6ef4c5;
+	letter-spacing: 0.05em;
+}
+
+.next-reset-hint {
+	font-weight: 600;
+	color: #9aa6c1;
+	margin-top: 0.4rem;
 }
 .primary-btn.beta-action {
 	font-weight: 700;
