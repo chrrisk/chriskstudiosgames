@@ -519,16 +519,16 @@ const getCategoryStatus = (key: CategoryKey): CategoryStatus => {
 			.join("\n");
 		const baseMessage = `🎧 My songgame results 🎧\n${summary}`;
 		const shareUrl = "https://play.chriskstudios.com";
+		const message = `${baseMessage}\nPlay it yourself: ${shareUrl}`;
 		try {
 			if (typeof navigator !== "undefined" && navigator.share) {
 				await navigator.share({
 					title: "My songgame results",
-					text: baseMessage,
-					url: shareUrl,
+					text: message,
 				});
 				setShareFeedback({ message: "Shared! 🎉", context });
 			} else if (typeof navigator !== "undefined" && navigator.clipboard?.writeText) {
-				await navigator.clipboard.writeText(`${baseMessage}\nPlay it: ${shareUrl}`);
+				await navigator.clipboard.writeText(message);
 				setShareFeedback({ message: "Results copied! 📋", context });
 			} else {
 				setShareFeedback({ message: "Sharing not supported here. Copy manually.", context });
