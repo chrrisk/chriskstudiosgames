@@ -1,66 +1,147 @@
-// src/App.tsx
-
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
-import cloudflareLogo from "./assets/Cloudflare_Logo.svg";
-import honoLogo from "./assets/hono.svg";
+import { useEffect, useState } from "react";
 import "./App.css";
+import playLogo from "./assets/play-logo.png";
+
+const secretPath = "/songgame-lab-8d3b4c2a3f3e4b9a";
+const defaultFavicon = "data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%20100%20100%27%3E%3Ctext%20y%3D%27.9em%27%20font-size%3D%2790%27%3E%F0%9F%8E%AE%3C/text%3E%3C/svg%3E";
+const labFavicon = "data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%20100%20100%27%3E%3Ctext%20y%3D%27.9em%27%20font-size%3D%2790%27%3E%F0%9F%8E%B5%3C/text%3E%3C/svg%3E";
+
+const games = [
+	{
+		title: "songgame",
+		tagline: "Daily guess the song challenge.",
+		actionLabel: "Play songgame",
+		onSelect: () => "modal",
+	},
+	{
+		title: "Placeholder",
+		tagline: "More coming at a later date.",
+		actionLabel: "TBD",
+		onSelect: () => "placeholder",
+	},
+];
 
 function App() {
-	const [count, setCount] = useState(0);
-	const [name, setName] = useState("unknown");
+	const [showModal, setShowModal] = useState(false);
+	const isSecretRoute =
+		typeof window !== "undefined" &&
+		window.location.pathname.replace(/\/$/, "") === secretPath.replace(/\/$/, "");
+
+	useEffect(() => {
+		if (typeof document === "undefined") return;
+		const href = isSecretRoute ? labFavicon : defaultFavicon;
+		let link = document.querySelector<HTMLLinkElement>("link[rel='icon']");
+		if (!link) {
+			link = document.createElement("link");
+			link.rel = "icon";
+			link.type = "image/svg+xml";
+			document.head.appendChild(link);
+		}
+		link.href = href;
+	}, [isSecretRoute]);
+
+	if (isSecretRoute) {
+		return <SongGameLab />;
+	}
 
 	return (
-		<>
-			<div>
-				<a href="https://vite.dev" target="_blank">
-					<img src={viteLogo} className="logo" alt="Vite logo" />
-				</a>
-				<a href="https://react.dev" target="_blank">
-					<img src={reactLogo} className="logo react" alt="React logo" />
-				</a>
-				<a href="https://hono.dev/" target="_blank">
-					<img src={honoLogo} className="logo cloudflare" alt="Hono logo" />
-				</a>
-				<a href="https://workers.cloudflare.com/" target="_blank">
-					<img
-						src={cloudflareLogo}
-						className="logo cloudflare"
-						alt="Cloudflare logo"
-					/>
-				</a>
-			</div>
-			<h1>Vite + React + Hono + Cloudflare</h1>
-			<div className="card">
-				<button
-					onClick={() => setCount((count) => count + 1)}
-					aria-label="increment"
-				>
-					count is {count}
-				</button>
-				<p>
-					Edit <code>src/App.tsx</code> and save to test HMR
-				</p>
-			</div>
-			<div className="card">
-				<button
-					onClick={() => {
-						fetch("/api/")
-							.then((res) => res.json() as Promise<{ name: string }>)
-							.then((data) => setName(data.name));
-					}}
-					aria-label="get name"
-				>
-					Name from API is: {name}
-				</button>
-				<p>
-					Edit <code>worker/index.ts</code> to change the name
-				</p>
-			</div>
-			<p className="read-the-docs">Click on the logos to learn more</p>
-		</>
+		<div className="play-shell">
+			<header className="play-header">
+				<div className="brand">
+					<img src={playLogo} alt="ChrisK Studios logo" />
+					<div>
+						<p className="brand-label">ChrisK Studios</p>
+						<h1>play.chriskstudios.com</h1>
+					</div>
+				</div>
+				<span className="status-chip">Work in progress</span>
+			</header>
+			<main className="doc">
+				<section className="doc-card games-card" id="songgame">
+					<div className="games-header">
+						<div>
+							<h2>Games by ChrisK</h2>
+						</div>
+						<button className="ghost-btn" type="button" disabled>
+							More coming soon
+						</button>
+					</div>
+					<div className="games-grid">
+						{games.map((game) => (
+							<article className="game-card" key={game.title}>
+								<div>
+									<h3>{game.title}</h3>
+									<p>{game.tagline}</p>
+								</div>
+								{game.onSelect() === "modal" ? (
+									<button className="primary-btn" type="button" onClick={() => setShowModal(true)}>
+										{game.actionLabel}
+									</button>
+								) : (
+									<button className="ghost-btn" type="button" disabled>
+										{game.actionLabel}
+									</button>
+								)}
+							</article>
+						))}
+					</div>
+				</section>
+			</main>
+			{showModal ? (
+				<div className="modal-backdrop" role="dialog" aria-modal="true">
+					<div className="modal">
+						<h3>Not quite done yet!</h3>
+						<p>This game is still in development.</p>
+						<p>
+							Stay updated at{" "}
+							<a href="https://chriskstudios.com" target="_blank" rel="noreferrer">
+								chriskstudios.com
+							</a>
+						</p>
+						<button className="ghost-btn" type="button" onClick={() => setShowModal(false)}>
+							Close
+						</button>
+					</div>
+				</div>
+			) : null}
+			<footer className="play-footer">
+				<p>© ChrisK Studios 2025</p>
+			</footer>
+		</div>
 	);
 }
 
 export default App;
+
+function SongGameLab() {
+	return (
+		<div className="play-shell">
+			<header className="play-header">
+				<div className="brand">
+					<img src={playLogo} alt="ChrisK Studios logo" />
+					<div>
+						<p className="brand-label">ChrisK Studios</p>
+						<h1>songgame lab</h1>
+					</div>
+				</div>
+				<span className="status-chip">Prototype</span>
+			</header>
+			<main className="doc">
+				<section className="doc-card intro-card">
+					<p className="eyebrow">Hidden route</p>
+					<h1>Prototype canvas</h1>
+					<p>This page intentionally stays blank so you can build out the experience privately.</p>
+					<p>Current slug: {secretPath}</p>
+					<div className="lab-actions">
+						<a className="ghost-btn" href="/">
+							Back to games
+						</a>
+					</div>
+				</section>
+			</main>
+			<footer className="play-footer">
+				<p>© ChrisK Studios 2025</p>
+			</footer>
+		</div>
+	);
+}
