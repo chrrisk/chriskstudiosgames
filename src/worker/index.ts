@@ -14,6 +14,26 @@ const CATEGORY_DEFAULT_TRACKS: Record<CategoryKey, string> = {
 };
 
 const WEEKLY_TRACK_SCHEDULE: Record<string, Partial<Record<CategoryKey, string>>> = {
+	"2025-12-11": {
+		oldies: "426703682", // Eagles - Hotel California
+		modern: "3210709941", // Alex Warren - Ordinary
+		holiday: "62710442", // Mariah Carey - All I Want for Christmas Is You
+	},
+	"2025-12-12": {
+		oldies: "904732", // Aretha Franklin - Respect
+		modern: "1332676982", // Taylor Swift - Love Story (TV)
+		holiday: "1036586", // Wham! - Last Christmas
+	},
+	"2025-12-13": {
+		oldies: "568115892", // Queen - Bohemian Rhapsody
+		modern: "92734438", // Mark Ronson - Uptown Funk
+		holiday: "24136731", // Brenda Lee - Rockin' Around The Christmas Tree
+	},
+	"2025-12-14": {
+		oldies: "596034702", // Stevie Wonder - Superstition
+		modern: "1174604652", // Adele - Hello
+		holiday: "474645692", // Bobby Helms - Jingle Bell Rock
+	},
 };
 
 function getActiveCategoryKeys(dateKey: string): CategoryKey[] {
