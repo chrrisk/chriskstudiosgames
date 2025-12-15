@@ -55,6 +55,10 @@ const createInitialSolvedAt = () =>
 	({ oldies: null, modern: null, holiday: null } satisfies Record<CategoryKey, number | null>);
 const createInitialSelectedTracks = () =>
 	({ oldies: null, modern: null, holiday: null } satisfies Record<CategoryKey, TrackResult | null>);
+const createInitialQueries = () =>
+	({ oldies: "", modern: "", holiday: "" } satisfies Record<CategoryKey, string>);
+const createInitialTrackResults = () =>
+	({ oldies: [], modern: [], holiday: [] } satisfies Record<CategoryKey, TrackResult[]>);
 
 type StoredState = {
 	dateKey?: string;
@@ -97,6 +101,7 @@ function LightRunway() {
 	const ACTIVE_COUNT = 1;
 	const SEGMENT_WIDTH = 32;
 	const MIN_LIGHTS = 18;
+	const LIGHT_ADVANCE_INTERVAL = 400;
 	const computeLights = useCallback(() => {
 		if (typeof window === "undefined") return 36;
 		const segments = Math.ceil(window.innerWidth / SEGMENT_WIDTH);
@@ -108,9 +113,9 @@ function LightRunway() {
 	useEffect(() => {
 		const id = window.setInterval(() => {
 			setActiveIndex((prev) => (prev + 1) % lights);
-		}, 220);
+		}, LIGHT_ADVANCE_INTERVAL);
 		return () => window.clearInterval(id);
-	}, [lights]);
+	}, [LIGHT_ADVANCE_INTERVAL, lights]);
 
 	useEffect(() => {
 		setActiveIndex((prev) => prev % lights);
@@ -301,10 +306,10 @@ function createFlakes() {
 
 function SongGameLab() {
 	const playClick = useClickSound();
-	const [query, setQuery] = useState("");
+	const [categoryQueries, setCategoryQueries] = useState<Record<CategoryKey, string>>(createInitialQueries);
 	const [isSearchFocused, setIsSearchFocused] = useState(false);
 	const [isResultsHovered, setIsResultsHovered] = useState(false);
-	const [tracks, setTracks] = useState<TrackResult[]>([]);
+	const [categoryTracks, setCategoryTracks] = useState<Record<CategoryKey, TrackResult[]>>(createInitialTrackResults);
 	const [isSearching, setIsSearching] = useState(false);
 	const [searchError, setSearchError] = useState<string | null>(null);
 	const [selectedTracks, setSelectedTracks] = useState<Record<CategoryKey, TrackResult | null>>(createInitialSelectedTracks);
@@ -338,11 +343,35 @@ function SongGameLab() {
 	const selectedTrack = selectedTracks[activeCategory] ?? null;
 	const isFailed = failures[activeCategory] ?? false;
 	const allCategoriesFinished = availableCategories.every((key) => winners[key] || failures[key]);
+	const query = categoryQueries[activeCategory];
+	const tracks = categoryTracks[activeCategory];
 
 	const snippetIndex = Math.min(revealStep, snippetDurations.length - 1);
 	const currentSnippetLength = snippetDurations[snippetIndex];
 	const totalSnippetLength = snippetDurations[snippetDurations.length - 1];
 	const isAtMaxReveal = snippetIndex === snippetDurations.length - 1;
+	const snippetSegments = snippetDurations.map((duration, index) => {
+		const previousDuration = index === 0 ? 0 : snippetDurations[index - 1];
+		const segmentLength = duration - previousDuration;
+		const isUnlocked = index <= snippetIndex;
+		const isCurrent = index === snippetIndex;
+		const isNext = !isAtMaxReveal && index === snippetIndex + 1;
+		const additionLabel =
+			index === 0 ? formatSecondsLabel(duration) : formatSecondsLabel(segmentLength);
+		const totalLabel = formatSecondsLabel(duration);
+		const label =
+			index === 0
+				? `${totalLabel}s unlocked`
+				: `Unlocks +${additionLabel}s (total ${totalLabel}s)`;
+		return {
+			index,
+			segmentLength,
+			label,
+			isUnlocked,
+			isCurrent,
+			isNext,
+		};
+	});
 	const hasQuery = query.trim().length > 0;
 	const showResults = hasQuery && (isSearchFocused || isResultsHovered);
 
@@ -376,12 +405,13 @@ function SongGameLab() {
 		});
 
 	useEffect(() => {
+		const categoryKey = activeCategory;
 		const controller = new AbortController();
 		const timeoutId = window.setTimeout(async () => {
 			const trimmed = query.trim();
 			if (!trimmed) {
-				setTracks([]);
-				setSelectedTracks((prev) => ({ ...prev, [activeCategory]: null }));
+				setCategoryTracks((prev) => ({ ...prev, [categoryKey]: [] }));
+				setSelectedTracks((prev) => ({ ...prev, [categoryKey]: null }));
 				setIsSearching(false);
 				setSearchError(null);
 				return;
@@ -395,11 +425,11 @@ function SongGameLab() {
 				});
 				const data = (await response.json()) as { tracks?: TrackResult[]; error?: string };
 				if (!response.ok) throw new Error(data.error ?? "Search failed");
-				setTracks(data.tracks ?? []);
+				setCategoryTracks((prev) => ({ ...prev, [categoryKey]: data.tracks ?? [] }));
 			} catch (err) {
 				if (controller.signal.aborted) return;
 				setSearchError(err instanceof Error ? err.message : "Search failed");
-				setTracks([]);
+				setCategoryTracks((prev) => ({ ...prev, [categoryKey]: [] }));
 			} finally {
 				if (!controller.signal.aborted) {
 					setIsSearching(false);
@@ -774,6 +804,8 @@ const getCategoryStatus = (key: CategoryKey): CategoryStatus => {
 		setDateKey(newKey);
 		setAvailableCategories(upcomingCategories);
 		setActiveCategory(upcomingCategories[0] ?? "oldies");
+		setCategoryQueries(createInitialQueries());
+		setCategoryTracks(createInitialTrackResults());
 		setRevealSteps(createInitialRevealSteps());
 		setGuessHistories(createInitialGuessHistories());
 		setWinners(createInitialWinners());
@@ -816,6 +848,7 @@ const getCategoryStatus = (key: CategoryKey): CategoryStatus => {
 				<button
 					type="button"
 					aria-label="Adjust volume"
+					aria-expanded={isVolumeOpen}
 					onClick={() => setIsVolumeOpen((prev) => !prev)}
 				>
 					{isVolumeOpen ? "🔈" : "🔊"}
@@ -828,6 +861,7 @@ const getCategoryStatus = (key: CategoryKey): CategoryStatus => {
 						step="0.01"
 						value={volume}
 						onChange={(event) => setVolume(Number(event.target.value))}
+						onInput={(event) => setVolume(Number(event.currentTarget.value))}
 						aria-label="Volume slider"
 					/>
 				) : null}
@@ -877,7 +911,28 @@ const getCategoryStatus = (key: CategoryKey): CategoryStatus => {
 			</div>
 			<div className="snippet-progress">
 				<div className="snippet-progress-bar">
-					<span style={{ width: `${(currentSnippetLength / totalSnippetLength) * 100}%` }} />
+					{snippetSegments.map((segment) => {
+						const classes = ["snippet-progress-segment"];
+						if (segment.isUnlocked) {
+							classes.push("complete");
+						} else {
+							classes.push("locked");
+						}
+						if (segment.isCurrent) {
+							classes.push("current");
+						}
+						if (segment.isNext) {
+							classes.push("next");
+						}
+						return (
+							<span
+								key={segment.index}
+								className={classes.join(" ")}
+								style={{ flexGrow: segment.segmentLength, flexBasis: 0 }}
+								aria-label={segment.label}
+							/>
+						);
+					})}
 				</div>
 				<p className="lab-hint">
 					{formatSecondsLabel(currentSnippetLength)}s unlocked of {formatSecondsLabel(totalSnippetLength)}s total
@@ -893,7 +948,7 @@ const getCategoryStatus = (key: CategoryKey): CategoryStatus => {
 					{isPlayingSnippet ? "Stop" : "Play"}
 				</button>
 				<button
-					className="ghost-btn"
+					className="ghost-btn skip-btn"
 					type="button"
 					onClick={() => {
 						playClick();
@@ -912,7 +967,10 @@ const getCategoryStatus = (key: CategoryKey): CategoryStatus => {
 						type="text"
 						placeholder="Search song, artist, or album"
 						value={query}
-						onChange={(event) => setQuery(event.target.value)}
+						onChange={(event) => {
+							const { value } = event.target;
+							setCategoryQueries((prev) => ({ ...prev, [activeCategory]: value }));
+						}}
 						onKeyDown={(event) => {
 							if (event.key === "Enter") {
 								event.preventDefault();
