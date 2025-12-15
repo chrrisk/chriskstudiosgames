@@ -23,12 +23,15 @@ type TrackResult = {
 
 type GuessEntry = { track: TrackResult; correct: boolean; timestamp: number };
 
-const CATEGORY_KEYS = ["oldies", "modern"] as const;
-type CategoryKey = (typeof CATEGORY_KEYS)[number];
+const ALL_CATEGORY_KEYS = ["oldies", "modern", "holiday"] as const;
+type CategoryKey = (typeof ALL_CATEGORY_KEYS)[number];
+const DEFAULT_CATEGORY_ORDER: CategoryKey[] = ["oldies", "modern"];
+const HOLIDAY_CATEGORY: CategoryKey = "holiday";
 
 const CATEGORY_LABELS: Record<CategoryKey, { title: string; description: string; emoji: string }> = {
-	oldies: { title: "Oldies but Goodies", description: "Classic throwbacks", emoji: "🎶" },
-	modern: { title: "2000s & Newer", description: "Fresh favorites", emoji: "⚡️" },
+	oldies: { title: "Oldies but Goodies", description: "Classic throwbacks", emoji: "📼" },
+	modern: { title: "2000s & Newer", description: "Fresh favorites", emoji: "🎧" },
+	holiday: { title: "Holiday Classics", description: "Seasonal favorites", emoji: "🎄" },
 };
 
 type CategoryStatus = "idle" | "success" | "failure";
@@ -41,17 +44,17 @@ type DailyTrackResponse = {
 };
 
 const createInitialRevealSteps = () =>
-	({ oldies: 0, modern: 0 } satisfies Record<CategoryKey, number>);
+	({ oldies: 0, modern: 0, holiday: 0 } satisfies Record<CategoryKey, number>);
 const createInitialGuessHistories = () =>
-	({ oldies: [], modern: [] } satisfies Record<CategoryKey, GuessEntry[]>);
+	({ oldies: [], modern: [], holiday: [] } satisfies Record<CategoryKey, GuessEntry[]>);
 const createInitialWinners = () =>
-	({ oldies: false, modern: false } satisfies Record<CategoryKey, boolean>);
+	({ oldies: false, modern: false, holiday: false } satisfies Record<CategoryKey, boolean>);
 const createInitialFailures = () =>
-	({ oldies: false, modern: false } satisfies Record<CategoryKey, boolean>);
+	({ oldies: false, modern: false, holiday: false } satisfies Record<CategoryKey, boolean>);
 const createInitialSolvedAt = () =>
-	({ oldies: null, modern: null } satisfies Record<CategoryKey, number | null>);
+	({ oldies: null, modern: null, holiday: null } satisfies Record<CategoryKey, number | null>);
 const createInitialSelectedTracks = () =>
-	({ oldies: null, modern: null } satisfies Record<CategoryKey, TrackResult | null>);
+	({ oldies: null, modern: null, holiday: null } satisfies Record<CategoryKey, TrackResult | null>);
 
 type StoredState = {
 	dateKey?: string;
@@ -65,10 +68,10 @@ type StoredState = {
 };
 
 function mergeCategoryMap<T>(incoming: Partial<Record<CategoryKey, T>> | undefined, fallback: Record<CategoryKey, T>) {
-	return {
-		oldies: incoming?.oldies ?? fallback.oldies,
-		modern: incoming?.modern ?? fallback.modern,
-	} as Record<CategoryKey, T>;
+	return ALL_CATEGORY_KEYS.reduce((acc, key) => {
+		acc[key] = (incoming?.[key] ?? fallback[key]) as T;
+		return acc;
+	}, {} as Record<CategoryKey, T>);
 }
 
 const snippetDurations = [0.5, 1, 2, 5, 10, 15];
@@ -89,6 +92,54 @@ const games = [
 		onSelect: () => "placeholder",
 	},
 ];
+
+function LightRunway() {
+	const ACTIVE_COUNT = 1;
+	const SEGMENT_WIDTH = 32;
+	const MIN_LIGHTS = 18;
+	const computeLights = useCallback(() => {
+		if (typeof window === "undefined") return 36;
+		const segments = Math.ceil(window.innerWidth / SEGMENT_WIDTH);
+		return Math.max(MIN_LIGHTS, segments);
+	}, []);
+	const [lights, setLights] = useState(computeLights);
+	const [activeIndex, setActiveIndex] = useState(0);
+
+	useEffect(() => {
+		const id = window.setInterval(() => {
+			setActiveIndex((prev) => (prev + 1) % lights);
+		}, 220);
+		return () => window.clearInterval(id);
+	}, [lights]);
+
+	useEffect(() => {
+		setActiveIndex((prev) => prev % lights);
+	}, [lights]);
+
+	useEffect(() => {
+		if (typeof window === "undefined") return;
+		const handleResize = () => setLights(computeLights());
+		handleResize();
+		window.addEventListener("resize", handleResize);
+		return () => window.removeEventListener("resize", handleResize);
+	}, [computeLights]);
+
+	return (
+		<div className="light-runway" aria-hidden="true">
+			<div className="light-runway-track">
+				{Array.from({ length: lights }).map((_, index) => {
+					const isActive = Array.from({ length: ACTIVE_COUNT }).some((_, offset) => {
+						return index === (activeIndex + offset) % lights;
+					});
+					const orientationClass = index % 2 === 0 ? " forward" : " backward";
+					return (
+						<span key={index} className={`light-runway-node${orientationClass}${isActive ? " active" : ""}`} />
+					);
+				})}
+			</div>
+		</div>
+	);
+}
 
 function App() {
 	const playClick = useClickSound();
@@ -116,6 +167,7 @@ function App() {
 
 	return (
 		<div className="play-shell">
+			<SnowfallLayer />
 			<header className="play-header">
 				<a className="brand" href="/" onClick={playClick}>
 					<img src={playLogo} alt="ChrisK Studios logo" />
@@ -124,6 +176,7 @@ function App() {
 						<h1>play.chriskstudios.com</h1>
 					</div>
 				</a>
+				<LightRunway />
 			</header>
 			<main className="doc">
 				<section className="doc-card games-card" id="songgame">
@@ -195,6 +248,57 @@ function App() {
 
 export default App;
 
+function SnowfallLayer() {
+	const [flakes, setFlakes] = useState(() => createFlakes());
+
+	useEffect(() => {
+		const id = window.setInterval(() => {
+			setFlakes((prev) =>
+				prev.map((flake) => {
+					let nextY = flake.y + flake.speed;
+					let nextX = flake.x + Math.sin(flake.y / 30) * flake.drift;
+					if (nextY > 100) {
+						nextY = -5;
+						nextX = Math.random() * 100;
+					}
+					return { ...flake, y: nextY, x: nextX };
+				}),
+			);
+		}, 60);
+		return () => window.clearInterval(id);
+	}, []);
+
+	return (
+		<div className="snowfall-layer" aria-hidden="true">
+			{flakes.map((flake) => (
+				<span
+					key={flake.id}
+					className="snowflake"
+					style={{
+						left: `${flake.x}vw`,
+						top: `${flake.y}vh`,
+						width: `${flake.size}px`,
+						height: `${flake.size}px`,
+						opacity: flake.opacity,
+					}}
+				/>
+			))}
+		</div>
+	);
+}
+
+function createFlakes() {
+	return Array.from({ length: 40 }).map((_, index) => ({
+		id: index,
+		x: Math.random() * 100,
+		y: Math.random() * 100,
+		size: Math.random() * 3 + 2,
+		speed: Math.random() * 0.4 + 0.2,
+		opacity: Math.random() * 0.6 + 0.2,
+		drift: Math.random() * 0.4 + 0.1,
+	}));
+}
+
 function SongGameLab() {
 	const playClick = useClickSound();
 	const [query, setQuery] = useState("");
@@ -205,6 +309,8 @@ function SongGameLab() {
 	const [searchError, setSearchError] = useState<string | null>(null);
 	const [selectedTracks, setSelectedTracks] = useState<Record<CategoryKey, TrackResult | null>>(createInitialSelectedTracks);
 	const [dailyCategories, setDailyCategories] = useState<Partial<Record<CategoryKey, TrackResult | null>>>({});
+	const [dateKey, setDateKey] = useState(() => getEasternDateKey());
+	const [availableCategories, setAvailableCategories] = useState<CategoryKey[]>(() => getActiveCategoryKeysForDate(getEasternDateKey()));
 	const [activeCategory, setActiveCategory] = useState<CategoryKey>("oldies");
 	const [gameMessage, setGameMessage] = useState<string | null>(null);
 	const [revealSteps, setRevealSteps] = useState<Record<CategoryKey, number>>(createInitialRevealSteps);
@@ -216,10 +322,10 @@ function SongGameLab() {
 	const [showResultsModal, setShowResultsModal] = useState(false);
 	const [completionModal, setCompletionModal] = useState<CompletionModalState | null>(null);
 	const [shareFeedback, setShareFeedback] = useState<{ message: string; context: "floating" | "modal" } | null>(null);
-	const [dateKey, setDateKey] = useState(() => getEasternDateKey());
 	const [isHydrated, setIsHydrated] = useState(false);
 	const [solvedAtMap, setSolvedAtMap] = useState<Record<CategoryKey, number | null>>(createInitialSolvedAt);
 	const [resetCountdown, setResetCountdown] = useState(() => formatCountdownLabel(getMillisecondsUntilNextEasternReset()));
+	const [isVolumeOpen, setIsVolumeOpen] = useState(false);
 	const audioRef = useRef<HTMLAudioElement | null>(null);
 	const snippetTimeoutRef = useRef<number | null>(null);
 	const shareFeedbackTimeoutRef = useRef<number | null>(null);
@@ -231,7 +337,7 @@ function SongGameLab() {
 	const isWinner = winners[activeCategory] ?? false;
 	const selectedTrack = selectedTracks[activeCategory] ?? null;
 	const isFailed = failures[activeCategory] ?? false;
-	const allCategoriesFinished = CATEGORY_KEYS.every((key) => winners[key] || failures[key]);
+	const allCategoriesFinished = availableCategories.every((key) => winners[key] || failures[key]);
 
 	const snippetIndex = Math.min(revealStep, snippetDurations.length - 1);
 	const currentSnippetLength = snippetDurations[snippetIndex];
@@ -241,7 +347,7 @@ function SongGameLab() {
 	const showResults = hasQuery && (isSearchFocused || isResultsHovered);
 
 	const getCategorySummaries = () =>
-		CATEGORY_KEYS.map((key) => {
+		availableCategories.map((key) => {
 			const { title, emoji } = CATEGORY_LABELS[key];
 			if (winners[key]) {
 				const solvedTime = solvedAtMap[key];
@@ -316,8 +422,11 @@ function SongGameLab() {
 		}
 	try {
 		const data = JSON.parse(raw) as StoredState;
+		const todaysKeys = getActiveCategoryKeysForDate(dateKey);
+		setAvailableCategories(todaysKeys);
 		if (data.dateKey === dateKey) {
-			setActiveCategory(data.activeCategory ?? "oldies");
+			const storedActive = data.activeCategory && todaysKeys.includes(data.activeCategory) ? data.activeCategory : todaysKeys[0];
+			setActiveCategory(storedActive ?? "oldies");
 			setRevealSteps(mergeCategoryMap(data.revealSteps, createInitialRevealSteps()));
 			setGuessHistories(mergeCategoryMap(data.guessHistories, createInitialGuessHistories()));
 			const mergedWinners = mergeCategoryMap(data.winners, createInitialWinners());
@@ -326,7 +435,7 @@ function SongGameLab() {
 			setFailures(mergedFailures);
 			setSolvedAtMap(mergeCategoryMap(data.solvedAtMap, createInitialSolvedAt()));
 			setSelectedTracks(mergeCategoryMap(data.selectedTracks, createInitialSelectedTracks()));
-			if (CATEGORY_KEYS.every((key) => mergedWinners[key] || mergedFailures[key])) {
+			if (todaysKeys.every((key) => mergedWinners[key] || mergedFailures[key])) {
 				setShowResultsModal(true);
 			}
 		} else {
@@ -380,12 +489,16 @@ function SongGameLab() {
 				const data = (await response.json()) as DailyTrackResponse;
 				if (!response.ok) throw new Error(data.error ?? "Failed to load the daily song");
 				const fallbackTrack = data.track ?? null;
-				const categories: Partial<Record<CategoryKey, TrackResult | null>> = {
-					oldies: data.categories?.oldies ?? fallbackTrack,
-					modern: data.categories?.modern ?? fallbackTrack,
-				};
-				if (!categories.oldies && categories.modern) categories.oldies = categories.modern;
-				if (!categories.modern && categories.oldies) categories.modern = categories.oldies;
+				const categories: Partial<Record<CategoryKey, TrackResult | null>> = {};
+				if (data.categories) {
+					for (const key of ALL_CATEGORY_KEYS) {
+						if (key in data.categories) {
+							categories[key] = data.categories[key] ?? null;
+						}
+					}
+				}
+				if (!categories.oldies && fallbackTrack) categories.oldies = fallbackTrack;
+				if (!categories.modern && fallbackTrack) categories.modern = fallbackTrack;
 				setDailyCategories(categories);
 			} catch (err) {
 				setGameMessage(err instanceof Error ? err.message : "Unable to load daily song");
@@ -501,13 +614,13 @@ const getCategoryStatus = (key: CategoryKey): CategoryStatus => {
 		nextWinners: Record<CategoryKey, boolean>,
 		nextFailures: Record<CategoryKey, boolean>
 	) => {
-		const finished = CATEGORY_KEYS.every((key) => nextWinners[key] || nextFailures[key]);
+		const finished = availableCategories.every((key) => nextWinners[key] || nextFailures[key]);
 		if (finished) {
 			setCompletionModal(null);
 			setShowResultsModal(true);
 			return;
 		}
-		const nextCategory = CATEGORY_KEYS.find((key) => !nextWinners[key] && !nextFailures[key]);
+		const nextCategory = availableCategories.find((key) => !nextWinners[key] && !nextFailures[key]);
 		if (nextCategory) {
 			setCompletionModal({ category: completedCategory, status, nextCategory });
 		}
@@ -657,8 +770,10 @@ const getCategoryStatus = (key: CategoryKey): CategoryStatus => {
 		}
 	};
 	const resetGameState = (newKey: string) => {
+		const upcomingCategories = getActiveCategoryKeysForDate(newKey);
 		setDateKey(newKey);
-		setActiveCategory("oldies");
+		setAvailableCategories(upcomingCategories);
+		setActiveCategory(upcomingCategories[0] ?? "oldies");
 		setRevealSteps(createInitialRevealSteps());
 		setGuessHistories(createInitialGuessHistories());
 		setWinners(createInitialWinners());
@@ -680,6 +795,7 @@ const getCategoryStatus = (key: CategoryKey): CategoryStatus => {
 
 	return (
 		<div className="play-shell">
+			<SnowfallLayer />
 			<header className="play-header">
 				<a className="brand" href="/" onClick={playClick}>
 					<img src={playLogo} alt="ChrisK Studios logo" />
@@ -688,32 +804,38 @@ const getCategoryStatus = (key: CategoryKey): CategoryStatus => {
 						<h1>songgame by ChrisK</h1>
 					</div>
 				</a>
-				<div className="volume-top-control">
-					<label htmlFor="top-volume-slider">Volume</label>
+				<div className="reset-countdown">
+					<span>Next songs in</span>
+					<strong>{resetCountdown}</strong>
+				</div>
+				<LightRunway />
+			</header>
+			<main className="doc lab-doc">
+		<section className="doc-card lab-player-card">
+			<div className={`lab-volume-toggle${isVolumeOpen ? " open" : ""}`}>
+				<button
+					type="button"
+					aria-label="Adjust volume"
+					onClick={() => setIsVolumeOpen((prev) => !prev)}
+				>
+					{isVolumeOpen ? "🔈" : "🔊"}
+				</button>
+				{isVolumeOpen ? (
 					<input
-						id="top-volume-slider"
 						type="range"
 						min="0"
 						max="1"
 						step="0.01"
 						value={volume}
 						onChange={(event) => setVolume(Number(event.target.value))}
+						aria-label="Volume slider"
 					/>
-				</div>
-				<div className="reset-countdown">
-					<span>Next songs in</span>
-					<strong>{resetCountdown}</strong>
-				</div>
-			</header>
-			<main className="doc lab-doc">
-		<section className="doc-card lab-player-card">
+				) : null}
+			</div>
 				<div className="lab-player-top">
 					<div>
-						{/* <p className="eyebrow">Daily snippet</p> */}
-						<h2>songgame by ChrisK</h2>
-						<p className="lab-hint">Unlock more audio with each skip or incorrect guess.</p>
 						<div className="category-toggle">
-							{CATEGORY_KEYS.map((key) => {
+							{availableCategories.map((key) => {
 								const isActive = key === activeCategory;
 								const details = CATEGORY_LABELS[key];
 								const trackInfo = dailyCategories[key];
@@ -722,6 +844,7 @@ const getCategoryStatus = (key: CategoryKey): CategoryStatus => {
 								if (isActive) classes.push("active");
 								if (status === "success") classes.push("success");
 								if (status === "failure") classes.push("failure");
+								if (key === HOLIDAY_CATEGORY) classes.push("holiday");
 								let pillSubtext = "Hidden track";
 								if (!trackInfo) {
 									pillSubtext = "Loading track...";
@@ -737,8 +860,15 @@ const getCategoryStatus = (key: CategoryKey): CategoryStatus => {
 										className={classes.join(" ")}
 										onClick={() => handleCategoryChange(key)}
 									>
-										<span className="category-pill-label">{details.title}</span>
-										<span className="category-pill-sub">{pillSubtext}</span>
+										<div className="category-pill-content">
+											<span className={`category-pill-emoji${key === HOLIDAY_CATEGORY ? " holiday" : ""}`} aria-hidden="true">
+												{details.emoji}
+											</span>
+											<div className="category-pill-text">
+												<span className="category-pill-label">{details.title}</span>
+												<span className="category-pill-sub">{pillSubtext}</span>
+											</div>
+										</div>
 									</button>
 								);
 							})}
@@ -775,42 +905,8 @@ const getCategoryStatus = (key: CategoryKey): CategoryStatus => {
 				</button>
 			</div>
 			{gameMessage ? <p className="lab-message">{gameMessage}</p> : null}
-				<div className="guess-board">
-					<div className="guess-board-head">
-						<p className="eyebrow">Guesses</p>
-					</div>
-					<div className="guess-grid">
-					{Array.from({ length: snippetDurations.length }).map((_, index) => {
-						const entry = guessHistory[index];
-						let tileState = "";
-						let label = "—";
-						if (entry) {
-							if (entry.correct) {
-								tileState = "correct";
-								label = entry.track.name;
-							} else if (entry.track.name.startsWith("Skip")) {
-								tileState = "skip";
-								label = entry.track.name;
-							} else {
-								const artistMatch = answerTrack ? hasMatchingArtist(entry.track, answerTrack) : false;
-								tileState = artistMatch ? "artist-match" : "incorrect";
-								label = entry.track.name;
-							}
-						} else if (index === guessHistory.length) {
-							tileState = "active";
-							label = "…";
-						}
-						return (
-							<div className={`guess-tile ${tileState}`} key={`guess-tile-${index}`}>
-								<span>{label}</span>
-							</div>
-						);
-					})}
-					</div>
-				</div>
 			<div className="lab-search-panel">
 				<p className="eyebrow">Song list</p>
-				<p className="lab-hint">Tap any row to submit your guess instantly.</p>
 				<div className="lab-search">
 					<input
 						type="text"
@@ -868,6 +964,39 @@ const getCategoryStatus = (key: CategoryKey): CategoryStatus => {
 									</div>
 								</div>
 							</button>
+						);
+					})}
+				</div>
+			</div>
+			<div className="guess-board">
+				<div className="guess-board-head">
+					<p className="eyebrow">Guesses</p>
+				</div>
+				<div className="guess-grid">
+					{Array.from({ length: snippetDurations.length }).map((_, index) => {
+						const entry = guessHistory[index];
+						let tileState = "";
+						let label = "—";
+						if (entry) {
+							if (entry.correct) {
+								tileState = "correct";
+								label = entry.track.name;
+							} else if (entry.track.name.startsWith("Skip")) {
+								tileState = "skip";
+								label = entry.track.name;
+							} else {
+								const artistMatch = answerTrack ? hasMatchingArtist(entry.track, answerTrack) : false;
+								tileState = artistMatch ? "artist-match" : "incorrect";
+								label = entry.track.name;
+							}
+						} else if (index === guessHistory.length) {
+							tileState = "active";
+							label = "…";
+						}
+						return (
+							<div className={`guess-tile ${tileState}`} key={`guess-tile-${index}`}>
+								<span>{label}</span>
+							</div>
 						);
 					})}
 				</div>
@@ -1070,4 +1199,18 @@ function useClickSound() {
 		soundRef.current.currentTime = 0;
 		void soundRef.current.play().catch(() => undefined);
 	}, []);
+}
+
+function getActiveCategoryKeysForDate(currentDateKey: string): CategoryKey[] {
+	return isHolidaySeason(currentDateKey) ? [...DEFAULT_CATEGORY_ORDER, HOLIDAY_CATEGORY] : DEFAULT_CATEGORY_ORDER;
+}
+
+function isHolidaySeason(currentDateKey: string) {
+	const [, monthStr, dayStr] = currentDateKey.split("-");
+	const month = Number(monthStr);
+	const day = Number(dayStr);
+	if (Number.isNaN(month) || Number.isNaN(day)) {
+		return false;
+	}
+	return month === 12 || (month === 1 && day === 1);
 }
