@@ -34,6 +34,41 @@ const WEEKLY_TRACK_SCHEDULE: Record<string, Partial<Record<CategoryKey, string>>
 		modern: "1174604652", // Adele - Hello
 		holiday: "474645692", // Bobby Helms - Jingle Bell Rock
 	},
+	"2025-12-15": {
+		oldies: "63480987", // Fleetwood Mac - Dreams
+		modern: "908604612", // The Weeknd - Blinding Lights
+		holiday: "585967", // Andy Williams - It's the Most Wonderful Time of the Year
+	},
+	"2025-12-16": {
+		oldies: "1133408852", // Marvin Gaye - What's Going On
+		modern: "1378342592", // Olivia Rodrigo - drivers license
+		holiday: "1934770197", // Michael Bublé - It's Beginning to Look a Lot Like Christmas
+	},
+	"2025-12-17": {
+		oldies: "625643", // Journey - Don't Stop Believin'
+		modern: "1703487577", // Harry Styles - As It Was
+		holiday: "90728983", // Ariana Grande - Santa Tell Me
+	},
+	"2025-12-18": {
+		oldies: "7818900", // The Rolling Stones - Paint It, Black
+		modern: "655095912", // Billie Eilish - bad guy
+		holiday: "131745958", // Kelly Clarkson - Underneath the Tree
+	},
+	"2025-12-19": {
+		oldies: "75981528", // Whitney Houston - I Wanna Dance with Somebody
+		modern: "2105158337", // Miley Cyrus - Flowers
+		holiday: "991049", // José Feliciano - Feliz Navidad
+	},
+	"2025-12-20": {
+		oldies: "374283061", // Prince - Purple Rain
+		modern: "747399352", // Post Malone - Circles
+		holiday: "584448352", // Burl Ives - A Holly Jolly Christmas
+	},
+	"2025-12-21": {
+		oldies: "2525864", // The Police - Every Breath You Take
+		modern: "2525537871", // Dua Lipa - Houdini
+		holiday: "3399685", // Bing Crosby - White Christmas
+	},
 };
 
 function getActiveCategoryKeys(dateKey: string): CategoryKey[] {
