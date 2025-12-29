@@ -69,6 +69,41 @@ const WEEKLY_TRACK_SCHEDULE: Record<string, Partial<Record<CategoryKey, string>>
 		modern: "2525537871", // Dua Lipa - Houdini
 		holiday: "3399685", // Bing Crosby - White Christmas
 	},
+	"2025-12-22": {
+		oldies: "14333215", // Billy Joel - Piano Man
+		modern: "2743578151", // Sabrina Carpenter - Espresso
+		holiday: "4228126", // Nat King Cole - The Christmas Song (Merry Christmas To You)
+	},
+	"2025-12-23": {
+		oldies: "3102931", // The Beach Boys - God Only Knows
+		modern: "2055292027", // SZA - Kill Bill
+		holiday: "70662094", // Dean Martin - Let It Snow! Let It Snow! Let It Snow!
+	},
+	"2025-12-24": {
+		oldies: "551383", // Elvis Presley - Can't Help Falling In Love
+		modern: "1976903157", // Taylor Swift - Anti-Hero
+		holiday: "3465341", // Frank Sinatra - Have Yourself A Merry Little Christmas
+	},
+	"2025-12-25": {
+		oldies: "116348464", // The Beatles - Here Comes The Sun
+		modern: "1952718637", // Noah Kahan - Homesick
+		holiday: "13072996", // The Ronettes - Sleigh Ride
+	},
+	"2025-12-26": {
+		oldies: "884025", // ABBA - Dancing Queen
+		modern: "602456552", // Post Malone & Swae Lee - Sunflower
+		holiday: "640963102", // Paul McCartney - Wonderful Christmastime
+	},
+	"2025-12-27": {
+		oldies: "487484142", // Earth, Wind & Fire - September
+		modern: "2387373015", // Doja Cat - Paint The Town Red
+		holiday: "609537", // Gene Autry - Rudolph the Red-Nosed Reindeer
+	},
+	"2025-12-28": {
+		oldies: "538643262", // The Temptations - My Girl
+		modern: "2710032012", // Hozier - Too Sweet
+		holiday: "7163389", // John Lennon & Yoko Ono - Happy Xmas (War Is Over)
+	},
 };
 
 function getActiveCategoryKeys(dateKey: string): CategoryKey[] {
