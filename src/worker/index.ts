@@ -104,6 +104,38 @@ const WEEKLY_TRACK_SCHEDULE: Record<string, Partial<Record<CategoryKey, string>>
 		modern: "2710032012", // Hozier - Too Sweet
 		holiday: "7163389", // John Lennon & Yoko Ono - Happy Xmas (War Is Over)
 	},
+	"2025-12-29": {
+		oldies: "540189172", // The Supremes - You Can't Hurry Love
+		modern: "737967292", // Taylor Swift - Cruel Summer
+		holiday: "13073002", // Darlene Love - Christmas (Baby Please Come Home)
+	},
+	"2025-12-30": {
+		oldies: "1045832272", // Queen - Don't Stop Me Now
+		modern: "2925741361", // Billie Eilish - What Was I Made For?
+		holiday: "7372854", // Chuck Berry - Run Rudolph Run
+	},
+	"2025-12-31": {
+		oldies: "139902529", // Frank Sinatra - New York, New York
+		modern: "2299840635", // Dua Lipa - Dance The Night
+		holiday: "4601779", // Jackson 5 - Santa Claus Is Coming To Town
+	},
+	"2026-01-01": {
+		oldies: "7193834", // John Lennon - Imagine
+		modern: "2614318122", // Ariana Grande - yes, and?
+		holiday: "14881466", // Elvis Presley - Blue Christmas
+	},
+	"2026-01-02": {
+		oldies: "27533911", // Earth, Wind & Fire - Let's Groove
+		modern: "2444176345", // Tate McRae - greedy
+	},
+	"2026-01-03": {
+		oldies: "1025659", // Billy Joel - Uptown Girl
+		modern: "2440763155", // Olivia Rodrigo - vampire
+	},
+	"2026-01-04": {
+		oldies: "3091978", // The Beach Boys - Wouldn't It Be Nice (Remastered 1999)
+		modern: "2672689962", // SZA - Saturn
+	},
 };
 
 function getActiveCategoryKeys(dateKey: string): CategoryKey[] {
