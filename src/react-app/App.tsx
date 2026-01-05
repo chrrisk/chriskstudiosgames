@@ -60,6 +60,8 @@ const createInitialQueries = () =>
 const createInitialTrackResults = () =>
 	({ oldies: [], modern: [], holiday: [] } satisfies Record<CategoryKey, TrackResult[]>);
 
+const MAINTENANCE_MODE = true;
+
 type StoredState = {
 	dateKey?: string;
 	activeCategory?: CategoryKey;
@@ -147,6 +149,32 @@ function LightRunway() {
 }
 
 function App() {
+	if (MAINTENANCE_MODE) {
+		return (
+			<div
+				className="play-shell"
+				style={{
+					minHeight: "100vh",
+					display: "flex",
+					alignItems: "center",
+					justifyContent: "center",
+					background: "radial-gradient(circle at 20% 20%, #1f2937, #0f172a 55%)",
+					color: "#f8fafc",
+					textAlign: "center",
+					padding: "3rem 1.5rem",
+				}}
+			>
+				<div style={{ maxWidth: 640, width: "100%" }}>
+					<p style={{ letterSpacing: "0.08em", textTransform: "uppercase", color: "#94a3b8" }}>play.chriskstudios</p>
+					<h1 style={{ fontSize: "2.75rem", margin: "0.5rem 0 0.75rem" }}>Down for maintenance</h1>
+					<p style={{ color: "#cbd5e1", lineHeight: 1.6 }}>
+						We are polishing the games and will be back soon. Thanks for your patience.
+					</p>
+				</div>
+			</div>
+		);
+	}
+
 	const playClick = useClickSound();
 	const [showModal, setShowModal] = useState(false);
 	const isSecretRoute =
