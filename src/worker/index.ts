@@ -136,6 +136,22 @@ const WEEKLY_TRACK_SCHEDULE: Record<string, Partial<Record<CategoryKey, string>>
 		oldies: "3091978", // The Beach Boys - Wouldn't It Be Nice (Remastered 1999)
 		modern: "2672689962", // SZA - Saturn
 	},
+	"2026-01-05": {
+		oldies: "561836", // Eurythmics - Sweet Dreams (Are Made of This) (2005 Remaster)
+		modern: "2728070371", // Chappell Roan - Good Luck, Babe!
+	},
+	"2026-01-06": {
+		oldies: "546004", // Daryl Hall & John Oates - You Make My Dreams (Come True)
+		modern: "2610711672", // Benson Boone - Beautiful Things
+	},
+	"2026-01-07": {
+		oldies: "664178", // Prince - Kiss
+		modern: "2801558032", // Billie Eilish - LUNCH
+	},
+	"2026-01-08": {
+		oldies: "568115782", // Queen - Somebody To Love (2011 Remaster)
+		modern: "2185094157", // Sabrina Carpenter - Feather
+	},
 };
 
 function getActiveCategoryKeys(dateKey: string): CategoryKey[] {
