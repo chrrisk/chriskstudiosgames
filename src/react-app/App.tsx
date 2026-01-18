@@ -99,55 +99,6 @@ const games = [
 	},
 ];
 
-function LightRunway() {
-	const ACTIVE_COUNT = 1;
-	const SEGMENT_WIDTH = 32;
-	const MIN_LIGHTS = 18;
-	const LIGHT_ADVANCE_INTERVAL = 400;
-	const computeLights = useCallback(() => {
-		if (typeof window === "undefined") return 36;
-		const segments = Math.ceil(window.innerWidth / SEGMENT_WIDTH);
-		return Math.max(MIN_LIGHTS, segments);
-	}, []);
-	const [lights, setLights] = useState(computeLights);
-	const [activeIndex, setActiveIndex] = useState(0);
-
-	useEffect(() => {
-		const id = window.setInterval(() => {
-			setActiveIndex((prev) => (prev + 1) % lights);
-		}, LIGHT_ADVANCE_INTERVAL);
-		return () => window.clearInterval(id);
-	}, [LIGHT_ADVANCE_INTERVAL, lights]);
-
-	useEffect(() => {
-		setActiveIndex((prev) => prev % lights);
-	}, [lights]);
-
-	useEffect(() => {
-		if (typeof window === "undefined") return;
-		const handleResize = () => setLights(computeLights());
-		handleResize();
-		window.addEventListener("resize", handleResize);
-		return () => window.removeEventListener("resize", handleResize);
-	}, [computeLights]);
-
-	return (
-		<div className="light-runway" aria-hidden="true">
-			<div className="light-runway-track">
-				{Array.from({ length: lights }).map((_, index) => {
-					const isActive = Array.from({ length: ACTIVE_COUNT }).some((_, offset) => {
-						return index === (activeIndex + offset) % lights;
-					});
-					const orientationClass = index % 2 === 0 ? " forward" : " backward";
-					return (
-						<span key={index} className={`light-runway-node${orientationClass}${isActive ? " active" : ""}`} />
-					);
-				})}
-			</div>
-		</div>
-	);
-}
-
 function App() {
 	if (MAINTENANCE_MODE) {
 		return (
@@ -200,7 +151,6 @@ function App() {
 
 	return (
 		<div className="play-shell">
-			<SnowfallLayer />
 			<header className="play-header">
 				<a className="brand" href="/" onClick={playClick}>
 					<img src={playLogo} alt="ChrisK Studios logo" />
@@ -209,7 +159,6 @@ function App() {
 						<h1>play.chriskstudios.com</h1>
 					</div>
 				</a>
-				<LightRunway />
 			</header>
 			<main className="doc">
 				<section className="doc-card games-card" id="songgame">
@@ -280,57 +229,6 @@ function App() {
 }
 
 export default App;
-
-function SnowfallLayer() {
-	const [flakes, setFlakes] = useState(() => createFlakes());
-
-	useEffect(() => {
-		const id = window.setInterval(() => {
-			setFlakes((prev) =>
-				prev.map((flake) => {
-					let nextY = flake.y + flake.speed;
-					let nextX = flake.x + Math.sin(flake.y / 30) * flake.drift;
-					if (nextY > 100) {
-						nextY = -5;
-						nextX = Math.random() * 100;
-					}
-					return { ...flake, y: nextY, x: nextX };
-				}),
-			);
-		}, 60);
-		return () => window.clearInterval(id);
-	}, []);
-
-	return (
-		<div className="snowfall-layer" aria-hidden="true">
-			{flakes.map((flake) => (
-				<span
-					key={flake.id}
-					className="snowflake"
-					style={{
-						left: `${flake.x}vw`,
-						top: `${flake.y}vh`,
-						width: `${flake.size}px`,
-						height: `${flake.size}px`,
-						opacity: flake.opacity,
-					}}
-				/>
-			))}
-		</div>
-	);
-}
-
-function createFlakes() {
-	return Array.from({ length: 40 }).map((_, index) => ({
-		id: index,
-		x: Math.random() * 100,
-		y: Math.random() * 100,
-		size: Math.random() * 3 + 2,
-		speed: Math.random() * 0.4 + 0.2,
-		opacity: Math.random() * 0.6 + 0.2,
-		drift: Math.random() * 0.4 + 0.1,
-	}));
-}
 
 function SongGameLab() {
 	const playClick = useClickSound();
@@ -855,7 +753,6 @@ const getCategoryStatus = (key: CategoryKey): CategoryStatus => {
 
 	return (
 		<div className="play-shell">
-			<SnowfallLayer />
 			<header className="play-header">
 				<a className="brand" href="/" onClick={playClick}>
 					<img src={playLogo} alt="ChrisK Studios logo" />
@@ -868,7 +765,6 @@ const getCategoryStatus = (key: CategoryKey): CategoryStatus => {
 					<span>Next songs in</span>
 					<strong>{resetCountdown}</strong>
 				</div>
-				<LightRunway />
 			</header>
 			<main className="doc lab-doc">
 		<section className="doc-card lab-player-card">
