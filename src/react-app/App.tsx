@@ -60,7 +60,7 @@ const createInitialQueries = () =>
 const createInitialTrackResults = () =>
 	({ oldies: [], modern: [], holiday: [] } satisfies Record<CategoryKey, TrackResult[]>);
 
-const MAINTENANCE_MODE = true;
+const MAINTENANCE_MODE = false;
 
 type StoredState = {
 	dateKey?: string;
