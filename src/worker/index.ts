@@ -152,6 +152,10 @@ const WEEKLY_TRACK_SCHEDULE: Record<string, Partial<Record<CategoryKey, string>>
 		oldies: "568115782", // Queen - Somebody To Love (2011 Remaster)
 		modern: "2185094157", // Sabrina Carpenter - Feather
 	},
+	"2026-01-18": {
+		oldies: "4603408", // Michael Jackson - Billie Jean
+		modern: "2743578151", // Sabrina Carpenter - Espresso
+	},
 };
 
 function getActiveCategoryKeys(dateKey: string): CategoryKey[] {
