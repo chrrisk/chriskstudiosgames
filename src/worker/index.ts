@@ -156,6 +156,34 @@ const WEEKLY_TRACK_SCHEDULE: Record<string, Partial<Record<CategoryKey, string>>
 		oldies: "4603408", // Michael Jackson - Billie Jean
 		modern: "2743578151", // Sabrina Carpenter - Espresso
 	},
+	"2026-01-19": {
+		oldies: "664507", // Madonna - Like a Prayer
+		modern: "2444176345", // Tate McRae - greedy
+	},
+	"2026-01-20": {
+		oldies: "72194071", // Cyndi Lauper - Girls Just Want to Have Fun
+		modern: "2728070371", // Chappell Roan - Good Luck, Babe!
+	},
+	"2026-01-21": {
+		oldies: "538660022", // Bon Jovi - Livin' On A Prayer
+		modern: "2610711672", // Benson Boone - Beautiful Things
+	},
+	"2026-01-22": {
+		oldies: "426703682", // Eagles - Hotel California (2013 Remaster)
+		modern: "2105158337", // Miley Cyrus - Flowers
+	},
+	"2026-01-23": {
+		oldies: "92720046", // AC/DC - Back In Black
+		modern: "2757495911", // Taylor Swift - Fortnight
+	},
+	"2026-01-24": {
+		oldies: "88902741", // Bryan Adams - Summer Of '69
+		modern: "2690050002", // Ariana Grande - we can't be friends (wait for your love)
+	},
+	"2026-01-25": {
+		oldies: "518458172", // Guns N' Roses - Sweet Child O' Mine
+		modern: "2780753191", // Post Malone - I Had Some Help
+	},
 };
 
 function getActiveCategoryKeys(dateKey: string): CategoryKey[] {
