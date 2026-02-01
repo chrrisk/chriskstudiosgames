@@ -184,6 +184,34 @@ const WEEKLY_TRACK_SCHEDULE: Record<string, Partial<Record<CategoryKey, string>>
 		oldies: "518458172", // Guns N' Roses - Sweet Child O' Mine
 		modern: "2780753191", // Post Malone - I Had Some Help
 	},
+	"2026-01-26": {
+		oldies: "14525086", // George Michael - Careless Whisper
+		modern: "2729273551", // Shaboozey - A Bar Song (Tipsy)
+	},
+	"2026-01-27": {
+		oldies: "1079668", // Toto - Africa
+		modern: "2831602002", // Sabrina Carpenter - Please Please Please
+	},
+	"2026-01-28": {
+		oldies: "134036212", // Phil Collins - In the Air Tonight (2015 Remaster)
+		modern: "2801558052", // Billie Eilish - BIRDS OF A FEATHER
+	},
+	"2026-01-29": {
+		oldies: "4125592", // The Rolling Stones - Start Me Up (Remastered 2009)
+		modern: "908604632", // The Weeknd - Save Your Tears
+	},
+	"2026-01-30": {
+		oldies: "347363311", // U2 - With Or Without You
+		modern: "2525537871", // Dua Lipa - Houdini
+	},
+	"2026-01-31": {
+		oldies: "15586246", // Bruce Springsteen - Dancing In the Dark
+		modern: "2710032012", // Hozier - Too Sweet
+	},
+	"2026-02-01": {
+		oldies: "88845911", // Tears For Fears - Everybody Wants To Rule The World
+		modern: "2055292027", // SZA - Kill Bill
+	},
 };
 
 function getActiveCategoryKeys(dateKey: string): CategoryKey[] {
