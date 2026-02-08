@@ -212,6 +212,36 @@ const WEEKLY_TRACK_SCHEDULE: Record<string, Partial<Record<CategoryKey, string>>
 		oldies: "88845911", // Tears For Fears - Everybody Wants To Rule The World
 		modern: "2055292027", // SZA - Kill Bill
 	},
+
+	// --- February 2026 ---
+	"2026-02-02": {
+		oldies: "406815322", // Bee Gees - Stayin' Alive
+		modern: "1109731", // Eminem - Lose Yourself
+	},
+	"2026-02-03": {
+		oldies: "1911181457", // Michael Jackson - Thriller
+		modern: "609244", // Beyoncé - Crazy in Love
+	},
+	"2026-02-04": {
+		oldies: "1267950", // Gloria Gaynor - I Will Survive
+		modern: "1101619", // OutKast - Hey Ya!
+	},
+	"2026-02-05": {
+		oldies: "74467598", // Elton John - Rocket Man
+		modern: "959183", // Alicia Keys - Fallin'
+	},
+	"2026-02-06": {
+		oldies: "530300621", // Bob Marley - No Woman No Cry
+		modern: "6899831", // Rihanna - Umbrella
+	},
+	"2026-02-07": {
+		oldies: "13693497", // Nirvana - Smells Like Teen Spirit
+		modern: "5756651", // Amy Winehouse - Rehab
+	},
+	"2026-02-08": {
+		oldies: "1172823", // Led Zeppelin - Whole Lotta Love
+		modern: "3121415", // Lady Gaga - Just Dance
+	},
 };
 
 function getActiveCategoryKeys(dateKey: string): CategoryKey[] {
