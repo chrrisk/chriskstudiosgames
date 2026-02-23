@@ -270,6 +270,34 @@ const WEEKLY_TRACK_SCHEDULE: Record<string, Partial<Record<CategoryKey, string>>
 		oldies: "77002901", // The Cranberries - Dreams
 		modern: "908605332", // Dua Lipa - Levitating
 	},
+	"2026-02-16": {
+		oldies: "678044", // Green Day - Basket Case
+		modern: "1378342612", // Olivia Rodrigo - good 4 u
+	},
+	"2026-02-17": {
+		oldies: "885421", // James Brown - I Got You (I Feel Good)
+		modern: "124603270", // Drake - One Dance
+	},
+	"2026-02-18": {
+		oldies: "77700217", // Jimi Hendrix - Purple Haze
+		modern: "407250732", // Lizzo - Truth Hurts
+	},
+	"2026-02-19": {
+		oldies: "9397861", // The Who - Baba O'Riley
+		modern: "908604602", // Harry Styles - Watermelon Sugar
+	},
+	"2026-02-20": {
+		oldies: "136334560", // R.E.M. - Losing My Religion
+		modern: "797228462", // Doja Cat - Say So
+	},
+	"2026-02-21": {
+		oldies: "871289", // Alanis Morissette - Ironic
+		modern: "1040154662", // Glass Animals - Heat Waves
+	},
+	"2026-02-22": {
+		oldies: "565656032", // David Bowie - Let's Dance
+		modern: "136889400", // The Weeknd - Starboy
+	},
 };
 
 function getActiveCategoryKeys(dateKey: string): CategoryKey[] {
