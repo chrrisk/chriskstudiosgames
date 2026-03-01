@@ -298,6 +298,36 @@ const WEEKLY_TRACK_SCHEDULE: Record<string, Partial<Record<CategoryKey, string>>
 		oldies: "565656032", // David Bowie - Let's Dance
 		modern: "136889400", // The Weeknd - Starboy
 	},
+	"2026-02-23": {
+		oldies: "3121608", // Blondie - Heart of Glass
+		modern: "629899842", // Ariana Grande - 7 rings
+	},
+	"2026-02-24": {
+		oldies: "69962764", // The Clash - Should I Stay or Should I Go
+		modern: "350171311", // Kendrick Lamar - HUMBLE.
+	},
+	"2026-02-25": {
+		oldies: "59917151", // Backstreet Boys - I Want It That Way
+		modern: "88101691", // Taylor Swift - Shake It Off
+	},
+	"2026-02-26": {
+		oldies: "538706952", // Donna Summer - Hot Stuff
+		modern: "88101681", // Taylor Swift - Blank Space
+	},
+	"2026-02-27": {
+		oldies: "62882811", // Diana Ross - Ain't No Mountain High Enough
+		modern: "2831602042", // Gracie Abrams - That's So True
+	},
+	"2026-02-28": {
+		oldies: "917931", // Lionel Richie - All Night Long (All Night)
+		modern: "2454854845", // Chappell Roan - Pink Pony Club
+	},
+
+	// --- March 2026 ---
+	"2026-03-01": {
+		oldies: "4399648", // The Jackson 5 - I Want You Back
+		modern: "2055292047", // Noah Kahan - Stick Season
+	},
 };
 
 function getActiveCategoryKeys(dateKey: string): CategoryKey[] {
