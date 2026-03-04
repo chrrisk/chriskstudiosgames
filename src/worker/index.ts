@@ -328,6 +328,261 @@ const WEEKLY_TRACK_SCHEDULE: Record<string, Partial<Record<CategoryKey, string>>
 		oldies: "4399648", // The Jackson 5 - I Want You Back
 		modern: "2055292047", // Noah Kahan - Stick Season
 	},
+
+	// --- July 2026 ---
+	"2026-07-04": {
+		oldies: "15586213", // Bruce Springsteen - Born in the U.S.A.
+		modern: "17135111", // Katy Perry - Firework
+	},
+	"2026-07-11": {
+		oldies: "549298232", // Tom Jones - It's Not Unusual
+		modern: "1999525067", // Drake & 21 Savage - Rich Flex
+	},
+	"2026-07-18": {
+		oldies: "13143609", // The Isley Brothers - Shout
+		modern: "1976903137", // Taylor Swift - Lavender Haze
+	},
+	"2026-07-25": {
+		oldies: "71433037", // Van Morrison - Moondance
+		modern: "1959441337", // SZA - Shirt
+	},
+
+	// --- August 2026 ---
+	"2026-08-01": {
+		oldies: "426703702", // Eagles - Life in the Fast Lane
+		modern: "2744502371", // Dua Lipa - Illusion
+	},
+	"2026-08-08": {
+		oldies: "624783", // Simon & Garfunkel - Mrs. Robinson
+		modern: "1756569647", // Harry Styles - Daydreaming
+	},
+	"2026-08-15": {
+		oldies: "107465566", // David Bowie - Space Oddity
+		modern: "1977132317", // Taylor Swift - Karma
+	},
+	"2026-08-22": {
+		oldies: "570650", // Jefferson Airplane - Somebody to Love
+		modern: "2131709787", // Lizzo - Special
+	},
+	"2026-08-29": {
+		oldies: "122210014", // John Lennon - Watching the Wheels
+		modern: "1794149487", // Drake - Jimmy Cooks
+	},
+
+	// --- September 2026 ---
+	"2026-09-05": {
+		oldies: "13167146", // Bob Dylan - Mr. Tambourine Man
+		modern: "1842063507", // Beyoncé - BREAK MY SOUL
+	},
+	"2026-09-12": {
+		oldies: "1583117", // Traffic - The Low Spark of High-Heeled Boys
+		modern: "1738347617", // Doja Cat - Vegas
+	},
+	"2026-09-19": {
+		oldies: "96466138", // Creedence Clearwater Revival - Fortunate Son
+		modern: "1977132317", // Taylor Swift - Midnights (3am Edition)
+	},
+	"2026-09-26": {
+		oldies: "81001890", // Santana - Black Magic Woman
+		modern: "1741494307", // Bad Bunny - Me Porto Bonito
+	},
+
+	// --- October 2026 ---
+	"2026-10-03": {
+		oldies: "128846783", // Johnny Cash - Hurt
+		modern: "2300267935", // Taylor Swift - Snow on the Beach
+	},
+	"2026-10-10": {
+		oldies: "664444", // Fleetwood Mac - Everywhere
+		modern: "542389552", // Ariana Grande - No Tears Left to Cry
+	},
+	"2026-10-17": {
+		oldies: "2525877", // The Police - Roxanne
+		modern: "1775918617", // Post Malone - Reputation
+	},
+	"2026-10-24": {
+		oldies: "121921372", // R.E.M. - Everybody Hurts
+		modern: "1977132347", // Taylor Swift - The Great War
+	},
+	"2026-10-31": {
+		oldies: "1911181457", // Michael Jackson - Thriller (Halloween!)
+		modern: "655095992", // Billie Eilish - bury a friend
+	},
+
+	// --- November 2026 ---
+	"2026-11-07": {
+		oldies: "69070922", // Elvis Presley - Blue Suede Shoes
+		modern: "144572210", // Drake - Passionfruit
+	},
+	"2026-11-14": {
+		oldies: "116348452", // The Beatles - Come Together
+		modern: "1124841642", // Dua Lipa - Future Nostalgia
+	},
+	"2026-11-21": {
+		oldies: "640073442", // Paul McCartney - Maybe I'm Amazed
+		modern: "655095962", // Billie Eilish - when the party's over
+	},
+	"2026-11-28": {
+		oldies: "2812992", // Joni Mitchell - Big Yellow Taxi
+		modern: "2477272471", // Noah Kahan - She Calls Me Back
+	},
+
+	// --- December 2026 (holiday season, cycling back through classics) ---
+	"2026-12-01": {
+		oldies: "426703682", // Eagles - Hotel California
+		modern: "3210709941", // Alex Warren - Ordinary
+		holiday: "62710442", // Mariah Carey - All I Want for Christmas Is You
+	},
+	"2026-12-02": {
+		oldies: "884025", // ABBA - Dancing Queen
+		modern: "737967292", // Taylor Swift - Cruel Summer
+		holiday: "1036586", // Wham! - Last Christmas
+	},
+	"2026-12-03": {
+		oldies: "568115892", // Queen - Bohemian Rhapsody
+		modern: "92734438", // Mark Ronson ft. Bruno Mars - Uptown Funk
+		holiday: "24136731", // Brenda Lee - Rockin' Around The Christmas Tree
+	},
+	"2026-12-04": {
+		oldies: "406815322", // Bee Gees - Stayin' Alive
+		modern: "1952718637", // Noah Kahan - Homesick
+		holiday: "474645692", // Bobby Helms - Jingle Bell Rock
+	},
+	"2026-12-05": {
+		oldies: "13693497", // Nirvana - Smells Like Teen Spirit
+		modern: "908604612", // The Weeknd - Blinding Lights
+		holiday: "585967", // Andy Williams - It's the Most Wonderful Time of the Year
+	},
+	"2026-12-06": {
+		oldies: "63480990", // Fleetwood Mac - Go Your Own Way
+		modern: "1378342592", // Olivia Rodrigo - drivers license
+		holiday: "1934770197", // Michael Bublé - It's Beginning to Look a Lot Like Christmas
+	},
+	"2026-12-07": {
+		oldies: "625643", // Journey - Don't Stop Believin'
+		modern: "1703487577", // Harry Styles - As It Was
+		holiday: "90728983", // Ariana Grande - Santa Tell Me
+	},
+	"2026-12-08": {
+		oldies: "7818900", // The Rolling Stones - Paint It, Black
+		modern: "655095912", // Billie Eilish - bad guy
+		holiday: "131745958", // Kelly Clarkson - Underneath the Tree
+	},
+	"2026-12-09": {
+		oldies: "75981528", // Whitney Houston - I Wanna Dance with Somebody
+		modern: "2105158337", // Miley Cyrus - Flowers
+		holiday: "991049", // José Feliciano - Feliz Navidad
+	},
+	"2026-12-10": {
+		oldies: "374283061", // Prince - Purple Rain
+		modern: "747399352", // Post Malone - Circles
+		holiday: "584448352", // Burl Ives - A Holly Jolly Christmas
+	},
+	"2026-12-11": {
+		oldies: "2525864", // The Police - Every Breath You Take
+		modern: "2525537871", // Dua Lipa - Houdini
+		holiday: "3399685", // Bing Crosby - White Christmas
+	},
+	"2026-12-12": {
+		oldies: "14333215", // Billy Joel - Piano Man
+		modern: "2743578151", // Sabrina Carpenter - Espresso
+		holiday: "4228126", // Nat King Cole - The Christmas Song (Merry Christmas To You)
+	},
+	"2026-12-13": {
+		oldies: "3102931", // The Beach Boys - God Only Knows
+		modern: "2055292027", // SZA - Kill Bill
+		holiday: "70662094", // Dean Martin - Let It Snow! Let It Snow! Let It Snow!
+	},
+	"2026-12-14": {
+		oldies: "551383", // Elvis Presley - Can't Help Falling In Love
+		modern: "1976903157", // Taylor Swift - Anti-Hero
+		holiday: "3465341", // Frank Sinatra - Have Yourself A Merry Little Christmas
+	},
+	"2026-12-15": {
+		oldies: "116348464", // The Beatles - Here Comes The Sun
+		modern: "2710032012", // Hozier - Too Sweet
+		holiday: "13072996", // The Ronettes - Sleigh Ride
+	},
+	"2026-12-16": {
+		oldies: "884025", // ABBA - Dancing Queen
+		modern: "602456552", // Post Malone & Swae Lee - Sunflower
+		holiday: "640963102", // Paul McCartney - Wonderful Christmastime
+	},
+	"2026-12-17": {
+		oldies: "487484142", // Earth, Wind & Fire - September
+		modern: "2387373015", // Doja Cat - Paint The Town Red
+		holiday: "609537", // Gene Autry - Rudolph the Red-Nosed Reindeer
+	},
+	"2026-12-18": {
+		oldies: "538643262", // The Temptations - My Girl
+		modern: "2801558052", // Billie Eilish - BIRDS OF A FEATHER
+		holiday: "7163389", // John Lennon & Yoko Ono - Happy Xmas (War Is Over)
+	},
+	"2026-12-19": {
+		oldies: "540189172", // The Supremes - You Can't Hurry Love
+		modern: "2831602002", // Sabrina Carpenter - Please Please Please
+		holiday: "13073002", // Darlene Love - Christmas (Baby Please Come Home)
+	},
+	"2026-12-20": {
+		oldies: "1045832272", // Queen - Don't Stop Me Now
+		modern: "2925741361", // Billie Eilish - What Was I Made For?
+		holiday: "7372854", // Chuck Berry - Run Rudolph Run
+	},
+	"2026-12-21": {
+		oldies: "139902529", // Frank Sinatra - New York, New York
+		modern: "2299840635", // Dua Lipa - Dance The Night
+		holiday: "4601779", // Jackson 5 - Santa Claus Is Coming To Town
+	},
+	"2026-12-22": {
+		oldies: "1133408852", // Marvin Gaye - What's Going On
+		modern: "2614318122", // Ariana Grande - yes, and?
+		holiday: "62710442", // Mariah Carey - All I Want for Christmas Is You
+	},
+	"2026-12-23": {
+		oldies: "596034702", // Stevie Wonder - Superstition
+		modern: "2728070371", // Chappell Roan - Good Luck, Babe!
+		holiday: "13072996", // The Ronettes - Sleigh Ride
+	},
+	"2026-12-24": {
+		oldies: "551383", // Elvis Presley - Can't Help Falling In Love
+		modern: "1976903157", // Taylor Swift - Anti-Hero
+		holiday: "3465341", // Frank Sinatra - Have Yourself A Merry Little Christmas
+	},
+	"2026-12-25": {
+		oldies: "116348464", // The Beatles - Here Comes The Sun
+		modern: "1952718637", // Noah Kahan - Homesick
+		holiday: "3399685", // Bing Crosby - White Christmas
+	},
+	"2026-12-26": {
+		oldies: "63480990", // Fleetwood Mac - Go Your Own Way
+		modern: "2743578151", // Sabrina Carpenter - Espresso
+		holiday: "640963102", // Paul McCartney - Wonderful Christmastime
+	},
+	"2026-12-27": {
+		oldies: "1045832272", // Queen - Don't Stop Me Now
+		modern: "2710032012", // Hozier - Too Sweet
+		holiday: "609537", // Gene Autry - Rudolph the Red-Nosed Reindeer
+	},
+	"2026-12-28": {
+		oldies: "884025", // ABBA - Dancing Queen
+		modern: "2387373015", // Doja Cat - Paint The Town Red
+		holiday: "24136731", // Brenda Lee - Rockin' Around The Christmas Tree
+	},
+	"2026-12-29": {
+		oldies: "487484142", // Earth, Wind & Fire - September
+		modern: "2525537871", // Dua Lipa - Houdini
+		holiday: "7163389", // John Lennon & Yoko Ono - Happy Xmas (War Is Over)
+	},
+	"2026-12-30": {
+		oldies: "88845911", // Tears For Fears - Everybody Wants To Rule The World
+		modern: "2801558052", // Billie Eilish - BIRDS OF A FEATHER
+		holiday: "7372854", // Chuck Berry - Run Rudolph Run
+	},
+	"2026-12-31": {
+		oldies: "139902529", // Frank Sinatra - New York, New York
+		modern: "2299840635", // Dua Lipa - Dance The Night
+		holiday: "4601779", // Jackson 5 - Santa Claus Is Coming To Town
+	},
 };
 
 function getActiveCategoryKeys(dateKey: string): CategoryKey[] {
