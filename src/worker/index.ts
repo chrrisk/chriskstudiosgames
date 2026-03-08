@@ -328,6 +328,34 @@ const WEEKLY_TRACK_SCHEDULE: Record<string, Partial<Record<CategoryKey, string>>
 		oldies: "4399648", // The Jackson 5 - I Want You Back
 		modern: "2055292047", // Noah Kahan - Stick Season
 	},
+	"2026-03-02": {
+		oldies: "15275788", // Simon & Garfunkel - The Sound of Silence
+		modern: "2610711682", // Teddy Swims - Lose Control
+	},
+	"2026-03-03": {
+		oldies: "78476961", // Otis Redding - (Sittin' On) The Dock of the Bay
+		modern: "2444176355", // Zach Bryan - I Remember Everything
+	},
+	"2026-03-04": {
+		oldies: "15026481", // Bob Dylan - Like a Rolling Stone
+		modern: "3398329531", // Morgan Wallen - Last Night
+	},
+	"2026-03-05": {
+		oldies: "64531041", // Janet Jackson - Rhythm Nation
+		modern: "2194033397", // Luke Combs - Fast Car
+	},
+	"2026-03-06": {
+		oldies: "904684", // Aretha Franklin - Think
+		modern: "1378342602", // Olivia Rodrigo - brutal
+	},
+	"2026-03-07": {
+		oldies: "116914122", // Pink Floyd - Comfortably Numb
+		modern: "2801558072", // Billie Eilish - Happier Than Ever
+	},
+	"2026-03-08": {
+		oldies: "7675129", // Pearl Jam - Even Flow
+		modern: "797228502", // Doja Cat - Streets
+	},
 
 	// --- July 2026 ---
 	"2026-07-04": {
