@@ -356,6 +356,34 @@ const WEEKLY_TRACK_SCHEDULE: Record<string, Partial<Record<CategoryKey, string>>
 		oldies: "7675129", // Pearl Jam - Even Flow
 		modern: "797228502", // Doja Cat - Streets
 	},
+	"2026-03-09": {
+		oldies: "62770021", // Destiny's Child - Say My Name
+		modern: "1711360637", // Jack Harlow - First Class
+	},
+	"2026-03-10": {
+		oldies: "72194073", // Cyndi Lauper - Time After Time
+		modern: "1756569577", // Harry Styles - Late Night Talking
+	},
+	"2026-03-11": {
+		oldies: "4763165", // Michael Jackson - Beat It
+		modern: "1189202982", // SZA - Good Days
+	},
+	"2026-03-12": {
+		oldies: "1151503", // Elton John - Tiny Dancer
+		modern: "1122450992", // Bad Bunny - Dakiti
+	},
+	"2026-03-13": {
+		oldies: "596034712", // Stevie Wonder - Sir Duke
+		modern: "1378342622", // Justin Bieber - Peaches
+	},
+	"2026-03-14": {
+		oldies: "24246391", // No Doubt - Don't Speak
+		modern: "1378342632", // The Kid LAROI - STAY
+	},
+	"2026-03-15": {
+		oldies: "3614129", // The Doors - Light My Fire
+		modern: "629466", // Alicia Keys - If I Ain't Got You
+	},
 
 	// --- July 2026 ---
 	"2026-07-04": {
