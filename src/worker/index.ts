@@ -384,6 +384,34 @@ const WEEKLY_TRACK_SCHEDULE: Record<string, Partial<Record<CategoryKey, string>>
 		oldies: "3614129", // The Doors - Light My Fire
 		modern: "629466", // Alicia Keys - If I Ain't Got You
 	},
+	"2026-03-16": {
+		oldies: "2542705", // Bob Marley - Redemption Song
+		modern: "1959441337", // SZA - Snooze
+	},
+	"2026-03-17": {
+		oldies: "63480990", // Fleetwood Mac - Go Your Own Way
+		modern: "1818665207", // Lizzo - About Damn Time
+	},
+	"2026-03-18": {
+		oldies: "1043894", // TLC - Waterfalls
+		modern: "447098092", // Camila Cabello - Havana
+	},
+	"2026-03-19": {
+		oldies: "918048", // Lionel Richie - Hello
+		modern: "623698142", // Luis Fonsi - Despacito
+	},
+	"2026-03-20": {
+		oldies: "63480997", // Sam Cooke - A Change Is Gonna Come
+		modern: "112662368", // Justin Bieber - Love Yourself
+	},
+	"2026-03-21": {
+		oldies: "1172833", // Led Zeppelin - Stairway to Heaven
+		modern: "136336116", // Bruno Mars - That's What I Like
+	},
+	"2026-03-22": {
+		oldies: "88845921", // Simple Minds - Don't You (Forget About Me)
+		modern: "349385251", // Charlie Puth - Attention
+	},
 
 	// --- July 2026 ---
 	"2026-07-04": {
