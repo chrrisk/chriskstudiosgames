@@ -412,6 +412,34 @@ const WEEKLY_TRACK_SCHEDULE: Record<string, Partial<Record<CategoryKey, string>>
 		oldies: "88845921", // Simple Minds - Don't You (Forget About Me)
 		modern: "349385251", // Charlie Puth - Attention
 	},
+	"2026-03-23": {
+		oldies: "116914042", // Pink Floyd - Wish You Were Here
+		modern: "143172408", // Khalid - Location
+	},
+	"2026-03-24": {
+		oldies: "1286183", // Pearl Jam - Black
+		modern: "969494", // Justin Timberlake - Cry Me a River
+	},
+	"2026-03-25": {
+		oldies: "3092940", // Human League - Don't You Want Me
+		modern: "15489383", // Justin Timberlake - SexyBack
+	},
+	"2026-03-26": {
+		oldies: "538660032", // Def Leppard - Pour Some Sugar on Me
+		modern: "1409072752", // Ed Sheeran - Bad Habits
+	},
+	"2026-03-27": {
+		oldies: "922014", // Sheryl Crow - All I Wanna Do
+		modern: "536421002", // Travis Scott - Sicko Mode
+	},
+	"2026-03-28": {
+		oldies: "925653", // Counting Crows - Mr. Jones
+		modern: "533609232", // Drake - God's Plan
+	},
+	"2026-03-29": {
+		oldies: "404618712", // The Cars - Just What I Needed
+		modern: "129310248", // The Chainsmokers - Closer
+	},
 
 	// --- July 2026 ---
 	"2026-07-04": {
