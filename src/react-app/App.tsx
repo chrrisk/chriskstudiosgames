@@ -254,14 +254,23 @@ function SongGameLab() {
 	const [completionModal, setCompletionModal] = useState<CompletionModalState | null>(null);
 	const [shareFeedback, setShareFeedback] = useState<{ message: string; context: "floating" | "modal" } | null>(null);
 	const [isHydrated, setIsHydrated] = useState(false);
+	const [isArchiveOpen, setIsArchiveOpen] = useState(false);
+	const [archiveDates, setArchiveDates] = useState<string[]>([]);
+	const [archiveDateKey, setArchiveDateKey] = useState<string | null>(null);
+	const [archiveLoading, setArchiveLoading] = useState(false);
+	const [archiveError, setArchiveError] = useState<string | null>(null);
+	const [archiveCategories, setArchiveCategories] = useState<Partial<Record<CategoryKey, TrackResult | null>>>({});
+	const [archiveActiveCategory, setArchiveActiveCategory] = useState<CategoryKey>("oldies");
 	const [solvedAtMap, setSolvedAtMap] = useState<Record<CategoryKey, number | null>>(createInitialSolvedAt);
 	const [resetCountdown, setResetCountdown] = useState(() => formatCountdownLabel(getMillisecondsUntilNextEasternReset()));
 	const [isVolumeOpen, setIsVolumeOpen] = useState(false);
 	const audioRef = useRef<HTMLAudioElement | null>(null);
+	const archiveAudioRef = useRef<HTMLAudioElement | null>(null);
 	const snippetTimeoutRef = useRef<number | null>(null);
 	const shareFeedbackTimeoutRef = useRef<number | null>(null);
 
 	const currentTrack = dailyCategories[activeCategory] ?? null;
+	const archiveTrack = archiveCategories[archiveActiveCategory] ?? null;
 	const answerTrack = currentTrack;
 	const revealStep = revealSteps[activeCategory] ?? 0;
 	const guessHistory = guessHistories[activeCategory] ?? [];
@@ -300,6 +309,7 @@ function SongGameLab() {
 	});
 	const hasQuery = query.trim().length > 0;
 	const showResults = hasQuery && (isSearchFocused || isResultsHovered);
+	const archiveMonths = groupDatesByMonth(archiveDates);
 
 	const getCategorySummaries = () =>
 		availableCategories.map((key) => {
@@ -420,6 +430,62 @@ function SongGameLab() {
 	}, [dateKey, activeCategory, revealSteps, guessHistories, winners, failures, solvedAtMap, selectedTracks, isHydrated]);
 
 	useEffect(() => {
+		if (!isArchiveOpen || archiveDates.length > 0) return;
+		const controller = new AbortController();
+		const loadArchiveDates = async () => {
+			try {
+				const response = await fetch("/api/music/archive", { signal: controller.signal });
+				const data = (await response.json()) as { dates?: string[]; error?: string };
+				if (!response.ok) throw new Error(data.error ?? "Failed to load archive");
+				const dates = data.dates ?? [];
+				setArchiveDates(dates);
+				setArchiveDateKey((prev) => prev ?? dates[0] ?? null);
+			} catch (error) {
+				if (controller.signal.aborted) return;
+				setArchiveError(error instanceof Error ? error.message : "Failed to load archive");
+			}
+		};
+		void loadArchiveDates();
+		return () => controller.abort();
+	}, [isArchiveOpen, archiveDates.length]);
+
+	useEffect(() => {
+		if (!isArchiveOpen || !archiveDateKey) return;
+		const controller = new AbortController();
+		const loadArchiveTrack = async () => {
+			setArchiveLoading(true);
+			setArchiveError(null);
+			try {
+				const response = await fetch(`/api/music/daily?date=${encodeURIComponent(archiveDateKey)}`, {
+					signal: controller.signal,
+				});
+				const data = (await response.json()) as DailyTrackResponse;
+				if (!response.ok) throw new Error(data.error ?? "Failed to load archive song");
+				const categories: Partial<Record<CategoryKey, TrackResult | null>> = {};
+				if (data.categories) {
+					for (const key of ALL_CATEGORY_KEYS) {
+						if (key in data.categories) {
+							categories[key] = data.categories[key] ?? null;
+						}
+					}
+				}
+				const nextActive = categories.oldies ? "oldies" : categories.modern ? "modern" : categories.holiday ? "holiday" : "oldies";
+				setArchiveCategories(categories);
+				setArchiveActiveCategory(nextActive);
+			} catch (error) {
+				if (controller.signal.aborted) return;
+				setArchiveError(error instanceof Error ? error.message : "Failed to load archive song");
+			} finally {
+				if (!controller.signal.aborted) {
+					setArchiveLoading(false);
+				}
+			}
+		};
+		void loadArchiveTrack();
+		return () => controller.abort();
+	}, [isArchiveOpen, archiveDateKey]);
+
+	useEffect(() => {
 		const intervalId = window.setInterval(() => {
 			const newKey = getEasternDateKey();
 			if (newKey !== dateKey) {
@@ -475,6 +541,7 @@ function SongGameLab() {
 				window.clearTimeout(snippetTimeoutRef.current);
 			}
 			audioRef.current?.pause();
+			archiveAudioRef.current?.pause();
 		};
 	}, []);
 
@@ -545,6 +612,33 @@ useEffect(() => {
 		if (next === activeCategory) return;
 		playClick();
 		setActiveCategory(next);
+	};
+
+	const handleArchiveDateChange = (next: string) => {
+		playClick();
+		setArchiveDateKey(next);
+	};
+
+	const handleArchivePlay = () => {
+		if (!archiveTrack?.previewUrl) {
+			setArchiveError("No preview is available for this archived track.");
+			return;
+		}
+		const audio = archiveAudioRef.current;
+		if (!audio) return;
+		audio.src = archiveTrack.previewUrl;
+		audio.currentTime = 0;
+		audio.volume = volume;
+		void audio.play().catch(() => undefined);
+	};
+
+	const openArchive = () => {
+		playClick();
+		setIsArchiveOpen(true);
+		setArchiveError(null);
+		if (!archiveDateKey) {
+			setArchiveDateKey(dateKey);
+		}
 	};
 
 	const handlePlaySnippet = () => {
@@ -761,9 +855,14 @@ const getCategoryStatus = (key: CategoryKey): CategoryStatus => {
 						<h1>songgame by ChrisK</h1>
 					</div>
 				</a>
-				<div className="reset-countdown">
-					<span>Next songs in</span>
-					<strong>{resetCountdown}</strong>
+				<div className="header-actions">
+					<button className="ghost-btn archive-btn" type="button" onClick={openArchive}>
+						Archive
+					</button>
+					<div className="reset-countdown">
+						<span>Next songs in</span>
+						<strong>{resetCountdown}</strong>
+					</div>
 				</div>
 			</header>
 			<main className="doc lab-doc">
@@ -1081,6 +1180,98 @@ const getCategoryStatus = (key: CategoryKey): CategoryStatus => {
 					</div>
 				</div>
 			) : null}
+			{isArchiveOpen ? (
+				<div className="modal-backdrop" role="dialog" aria-modal="true">
+					<div className="modal archive-modal">
+						<div className="archive-modal-head">
+							<div>
+								<h3>Archive</h3>
+								<p className="lab-hint">Pick a day and play that song again.</p>
+							</div>
+							<button className="ghost-btn" type="button" onClick={() => setIsArchiveOpen(false)}>
+								Close
+							</button>
+						</div>
+						<div className="archive-layout">
+							<div className="archive-calendar">
+								{archiveMonths.map((month) => (
+									<section className="archive-month" key={month.key}>
+										<h4>{month.label}</h4>
+										<div className="archive-date-grid">
+											{month.dates.map((date) => {
+												const selected = archiveDateKey === date;
+												return (
+													<button
+														key={date}
+														type="button"
+														className={`archive-date-btn${selected ? " active" : ""}`}
+														onClick={() => handleArchiveDateChange(date)}
+													>
+														{formatArchiveDateLabel(date)}
+													</button>
+												);
+											})}
+										</div>
+									</section>
+								))}
+							</div>
+							<div className="archive-player">
+								{archiveLoading ? <p className="lab-hint">Loading archive track…</p> : null}
+								{archiveError ? <p className="lab-error">{archiveError}</p> : null}
+								{archiveDateKey ? <p className="eyebrow">{formatArchiveLongDate(archiveDateKey)}</p> : null}
+								<div className="category-toggle archive-category-toggle">
+									{availableCategories.map((key) => {
+										const info = archiveCategories[key];
+										const details = CATEGORY_LABELS[key];
+										const selected = key === archiveActiveCategory;
+										return (
+											<button
+												key={`archive-${key}`}
+												type="button"
+												className={`category-pill${selected ? " active" : ""}`}
+												onClick={() => {
+													playClick();
+													setArchiveActiveCategory(key);
+												}}
+											>
+												<div className="category-pill-content">
+													<span className="category-pill-emoji" aria-hidden="true">
+														{details.emoji}
+													</span>
+													<div className="category-pill-text">
+														<span className="category-pill-label">{details.title}</span>
+														<span className="category-pill-sub">{info ? info.name : "Loading…"}</span>
+													</div>
+												</div>
+											</button>
+										);
+									})}
+								</div>
+								<div className="archive-track-card">
+									{archiveTrack ? (
+										<>
+											<div className="track-meta archive-track-meta">
+												{archiveTrack.artwork ? <img src={archiveTrack.artwork} alt="" className="track-art" /> : null}
+												<div>
+													<p className="track-name">{archiveTrack.name}</p>
+													<p className="track-detail">{archiveTrack.artists}</p>
+													<p className="track-detail">{archiveTrack.album}</p>
+												</div>
+											</div>
+											<button className="primary-btn" type="button" onClick={handleArchivePlay} disabled={!archiveTrack.previewUrl}>
+												Play preview
+											</button>
+											{archiveTrack.previewUrl ? null : <p className="lab-hint">No preview available for this song.</p>}
+										</>
+									) : (
+										<p className="lab-hint">Choose a date to load a song.</p>
+									)}
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			) : null}
 		</div>
 	);
 }
@@ -1169,6 +1360,47 @@ function formatCountdownLabel(ms: number) {
 		.padStart(2, "0");
 	const seconds = (totalSeconds % 60).toString().padStart(2, "0");
 	return `${hours}:${minutes}:${seconds}`;
+}
+
+function formatArchiveDateLabel(dateKey: string) {
+	const date = new Date(`${dateKey}T12:00:00Z`);
+	return new Intl.DateTimeFormat("en-US", {
+		month: "short",
+		day: "numeric",
+	}).format(date);
+}
+
+function formatArchiveLongDate(dateKey: string) {
+	const date = new Date(`${dateKey}T12:00:00Z`);
+	return new Intl.DateTimeFormat("en-US", {
+		weekday: "short",
+		month: "long",
+		day: "numeric",
+		year: "numeric",
+	}).format(date);
+}
+
+function groupDatesByMonth(dateKeys: string[]) {
+	const groups = new Map<string, string[]>();
+	for (const dateKey of dateKeys) {
+		const monthKey = dateKey.slice(0, 7);
+		const current = groups.get(monthKey) ?? [];
+		current.push(dateKey);
+		groups.set(monthKey, current);
+	}
+	return [...groups.entries()].map(([monthKey, dates]) => ({
+		key: monthKey,
+		label: formatArchiveMonthLabel(monthKey),
+		dates,
+	}));
+}
+
+function formatArchiveMonthLabel(monthKey: string) {
+	const date = new Date(`${monthKey}-01T12:00:00Z`);
+	return new Intl.DateTimeFormat("en-US", {
+		month: "long",
+		year: "numeric",
+	}).format(date);
 }
 
 function useClickSound() {

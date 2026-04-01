@@ -20,6 +20,19 @@ body {
 	border-top: 1px solid rgba(255, 255, 255, 0.06);
 }
 
+.header-actions {
+	display: flex;
+	align-items: center;
+	gap: 0.75rem;
+	margin-left: auto;
+	flex-wrap: wrap;
+	justify-content: flex-end;
+}
+
+.archive-btn {
+	white-space: nowrap;
+}
+
 .play-header {
 	padding: 1rem 1.5rem;
 	display: flex;
@@ -188,6 +201,131 @@ body {
 
 .lab-doc {
 	gap: 1.5rem;
+}
+
+.archive-modal {
+	width: min(1100px, 96vw);
+	max-height: 88vh;
+	overflow: auto;
+}
+
+.archive-modal-head {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	gap: 1rem;
+	margin-bottom: 1rem;
+}
+
+.archive-layout {
+	display: grid;
+	grid-template-columns: minmax(0, 1.1fr) minmax(280px, 0.9fr);
+	gap: 1rem;
+}
+
+.archive-calendar,
+.archive-player {
+	background: rgba(8, 12, 26, 0.55);
+	border: 1px solid rgba(255, 255, 255, 0.08);
+	border-radius: 12px;
+	padding: 1rem;
+}
+
+.archive-calendar {
+	max-height: 66vh;
+	overflow: auto;
+}
+
+.archive-month + .archive-month {
+	margin-top: 1rem;
+	padding-top: 1rem;
+	border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.archive-month h4 {
+	margin: 0 0 0.75rem;
+	font-size: 0.95rem;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+	color: #c9d3ea;
+}
+
+.archive-date-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(82px, 1fr));
+	gap: 0.5rem;
+}
+
+.archive-date-btn {
+	border-radius: 10px;
+	border: 1px solid rgba(255, 255, 255, 0.08);
+	background: rgba(255, 255, 255, 0.04);
+	color: #e7ebf5;
+	padding: 0.55rem 0.5rem;
+	font: inherit;
+	font-size: 0.78rem;
+	cursor: pointer;
+	transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+}
+
+.archive-date-btn:hover {
+	transform: translateY(-1px);
+	border-color: rgba(110, 244, 197, 0.45);
+}
+
+.archive-date-btn.active {
+	background: rgba(77, 161, 255, 0.16);
+	border-color: rgba(77, 161, 255, 0.75);
+	box-shadow: 0 12px 24px rgba(77, 161, 255, 0.16);
+}
+
+.archive-player {
+	display: flex;
+	flex-direction: column;
+	gap: 0.9rem;
+}
+
+.archive-category-toggle {
+	margin-top: 0;
+	flex-direction: column;
+}
+
+.archive-category-toggle .category-pill {
+	min-width: 0;
+	flex: 0 1 auto;
+}
+
+.archive-track-card {
+	display: flex;
+	flex-direction: column;
+	gap: 0.9rem;
+	padding: 1rem;
+	border-radius: 12px;
+	border: 1px solid rgba(255, 255, 255, 0.08);
+	background: rgba(255, 255, 255, 0.03);
+}
+
+.archive-track-meta {
+	align-items: flex-start;
+}
+
+.header-actions {
+	margin-left: auto;
+}
+
+@media (max-width: 860px) {
+	.archive-layout {
+		grid-template-columns: 1fr;
+	}
+
+	.header-actions {
+		width: 100%;
+		justify-content: space-between;
+	}
+
+	.reset-countdown {
+		margin-left: auto;
+	}
 }
 
 .lab-player-card {
