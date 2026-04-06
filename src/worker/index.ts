@@ -440,6 +440,36 @@ const WEEKLY_TRACK_SCHEDULE: Record<string, Partial<Record<CategoryKey, string>>
 		oldies: "404618712", // The Cars - Just What I Needed
 		modern: "129310248", // The Chainsmokers - Closer
 	},
+	"2026-03-30": {
+		oldies: "1080638", // Heart - Barracuda
+		modern: "16501728", // fun. - We Are Young
+	},
+	"2026-03-31": {
+		oldies: "63480977", // Elvis Presley - Suspicious Minds
+		modern: "862051992", // Dua Lipa - Physical
+	},
+
+	// --- April 2026 ---
+	"2026-04-01": {
+		oldies: "71647249", // Van Morrison - Brown Eyed Girl
+		modern: "734508762", // Lady Gaga - Poker Face
+	},
+	"2026-04-02": {
+		oldies: "78033230", // Roy Orbison - Oh, Pretty Woman
+		modern: "4601933", // Lady Gaga - Bad Romance
+	},
+	"2026-04-03": {
+		oldies: "2432823", // Marvin Gaye - Let's Get It On
+		modern: "1174603092", // Adele - Someone Like You
+	},
+	"2026-04-04": {
+		oldies: "1384398642", // Ray Charles - Hit the Road Jack
+		modern: "14525574", // Rihanna - We Found Love
+	},
+	"2026-04-05": {
+		oldies: "2321278", // The Mamas & The Papas - California Dreamin'
+		modern: "61424045", // Macklemore - Thrift Shop
+	},
 
 	// --- July 2026 ---
 	"2026-07-04": {
