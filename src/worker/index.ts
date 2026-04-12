@@ -470,6 +470,34 @@ const WEEKLY_TRACK_SCHEDULE: Record<string, Partial<Record<CategoryKey, string>>
 		oldies: "2321278", // The Mamas & The Papas - California Dreamin'
 		modern: "61424045", // Macklemore - Thrift Shop
 	},
+	"2026-04-06": {
+		oldies: "1157032812", // Cat Stevens - Wild World
+		modern: "70403437", // Lorde - Royals
+	},
+	"2026-04-07": {
+		oldies: "676880", // The Drifters - Under the Boardwalk
+		modern: "79875064", // Ed Sheeran - Thinking Out Loud
+	},
+	"2026-04-08": {
+		oldies: "856630", // Johnny Cash - Ring of Fire
+		modern: "124603286", // Drake - Hotline Bling
+	},
+	"2026-04-09": {
+		oldies: "109300764", // Procol Harum - A Whiter Shade of Pale
+		modern: "106506516", // The Weeknd - Can't Feel My Face
+	},
+	"2026-04-10": {
+		oldies: "542814742", // Patsy Cline - Crazy
+		modern: "629899852", // Ariana Grande - thank u, next
+	},
+	"2026-04-11": {
+		oldies: "114422238", // Dolly Parton - Jolene
+		modern: "550269952", // Taylor Swift - Style
+	},
+	"2026-04-12": {
+		oldies: "796316062", // Hank Williams - Your Cheatin' Heart
+		modern: "143172406", // Khalid - Young Dumb & Broke
+	},
 
 	// --- July 2026 ---
 	"2026-07-04": {
