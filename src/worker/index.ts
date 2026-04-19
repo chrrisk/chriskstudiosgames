@@ -498,6 +498,34 @@ const WEEKLY_TRACK_SCHEDULE: Record<string, Partial<Record<CategoryKey, string>>
 		oldies: "796316062", // Hank Williams - Your Cheatin' Heart
 		modern: "143172406", // Khalid - Young Dumb & Broke
 	},
+	"2026-04-13": {
+		oldies: "3108438", // Kenny Rogers - The Gambler
+		modern: "491446942", // Post Malone - Rockstar
+	},
+	"2026-04-14": {
+		oldies: "624738", // Willie Nelson - On the Road Again
+		modern: "1410738042", // Doja Cat - Woman
+	},
+	"2026-04-15": {
+		oldies: "82697686", // John Denver - Take Me Home, Country Roads
+		modern: "897666672", // Megan Thee Stallion - Savage
+	},
+	"2026-04-16": {
+		oldies: "63480992", // Fleetwood Mac - The Chain
+		modern: "112662366", // Justin Bieber - Sorry
+	},
+	"2026-04-17": {
+		oldies: "68094695", // Eagles - Take It Easy
+		modern: "113418500", // Shawn Mendes - Stitches
+	},
+	"2026-04-18": {
+		oldies: "625836", // Billy Joel - It's Still Rock and Roll to Me
+		modern: "2347250765", // Troye Sivan - Rush
+	},
+	"2026-04-19": {
+		oldies: "569548", // Hall & Oates - Rich Girl
+		modern: "16149860", // Lana Del Rey - Summertime Sadness
+	},
 
 	// --- July 2026 ---
 	"2026-07-04": {
