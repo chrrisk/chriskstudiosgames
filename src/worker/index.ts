@@ -526,6 +526,34 @@ const WEEKLY_TRACK_SCHEDULE: Record<string, Partial<Record<CategoryKey, string>>
 		oldies: "569548", // Hall & Oates - Rich Girl
 		modern: "16149860", // Lana Del Rey - Summertime Sadness
 	},
+	"2026-04-20": {
+		oldies: "84282505", // Creedence Clearwater Revival - Proud Mary
+		modern: "17881414", // Frank Ocean - Thinkin Bout You
+	},
+	"2026-04-21": {
+		oldies: "350027751", // Bee Gees - How Deep Is Your Love
+		modern: "123883254", // Calvin Harris - This Is What You Came For
+	},
+	"2026-04-22": {
+		oldies: "1340316482", // The Beach Boys - Surfin' USA
+		modern: "136336110", // Bruno Mars - 24K Magic
+	},
+	"2026-04-23": {
+		oldies: "538637072", // The Temptations - Papa Was a Rollin' Stone
+		modern: "830336932", // Harry Styles - Adore You
+	},
+	"2026-04-24": {
+		oldies: "39056731", // Wilson Pickett - In the Midnight Hour
+		modern: "626612382", // Khalid - Talk
+	},
+	"2026-04-25": {
+		oldies: "593693122", // Smokey Robinson - The Tracks of My Tears
+		modern: "1332677012", // Taylor Swift - You Belong With Me
+	},
+	"2026-04-26": {
+		oldies: "2203627", // Little Richard - Tutti Frutti
+		modern: "825986992", // Roddy Ricch - The Box
+	},
 
 	// --- July 2026 ---
 	"2026-07-04": {
