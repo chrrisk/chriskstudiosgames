@@ -554,6 +554,36 @@ const WEEKLY_TRACK_SCHEDULE: Record<string, Partial<Record<CategoryKey, string>>
 		oldies: "2203627", // Little Richard - Tutti Frutti
 		modern: "825986992", // Roddy Ricch - The Box
 	},
+	"2026-04-27": {
+		oldies: "1045565", // Elvis Presley - Jailhouse Rock
+		modern: "1086630", // Jack Johnson - Banana Pancakes
+	},
+	"2026-04-28": {
+		oldies: "4002674", // Buddy Holly - Peggy Sue
+		modern: "2686140", // Jason Mraz - I'm Yours
+	},
+	"2026-04-29": {
+		oldies: "727720", // America - A Horse With No Name
+		modern: "1714552247", // Zach Bryan - Something in the Orange
+	},
+	"2026-04-30": {
+		oldies: "90265961", // Four Tops - Reach Out I'll Be There
+		modern: "1817599637", // Sabrina Carpenter - Nonsense
+	},
+
+	// --- May 2026 ---
+	"2026-05-01": {
+		oldies: "3923661", // Sam & Dave - Soul Man
+		modern: "2454854745", // Chappell Roan - Red Wine Supernova
+	},
+	"2026-05-02": {
+		oldies: "906584", // Diana Ross - Endless Love
+		modern: "71238373", // Amy Winehouse - Valerie
+	},
+	"2026-05-03": {
+		oldies: "1560033", // Donna Summer - I Feel Love
+		modern: "681009652", // Tyler, the Creator - EARFQUAKE
+	},
 
 	// --- July 2026 ---
 	"2026-07-04": {
