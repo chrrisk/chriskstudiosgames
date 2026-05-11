@@ -584,6 +584,34 @@ const WEEKLY_TRACK_SCHEDULE: Record<string, Partial<Record<CategoryKey, string>>
 		oldies: "1560033", // Donna Summer - I Feel Love
 		modern: "681009652", // Tyler, the Creator - EARFQUAKE
 	},
+	"2026-05-04": {
+		oldies: "3091992", // The Beach Boys - Good Vibrations
+		modern: "2853373112", // Gracie Abrams - I Love You, I'm Sorry
+	},
+	"2026-05-05": {
+		oldies: "72194074", // Cyndi Lauper - She Bop
+		modern: "3398329671", // Morgan Wallen - You Proof
+	},
+	"2026-05-06": {
+		oldies: "555643", // Michael Jackson - P.Y.T. (Pretty Young Thing)
+		modern: "1044791832", // Cardi B - WAP
+	},
+	"2026-05-07": {
+		oldies: "3151391", // Blondie - One Way or Another
+		modern: "642673932", // Summer Walker - Girls Need Love
+	},
+	"2026-05-08": {
+		oldies: "132196486", // Marvin Gaye - I Heard It Through the Grapevine
+		modern: "2319265555", // Teddy Swims - Lose Control
+	},
+	"2026-05-09": {
+		oldies: "68584634", // Bob Dylan - Blowin' in the Wind
+		modern: "132635814", // Justin Timberlake - Can't Stop the Feeling!
+	},
+	"2026-05-10": {
+		oldies: "596034712", // Stevie Wonder - You Are the Sunshine of My Life
+		modern: "1124841652", // Dua Lipa - Don't Start Now
+	},
 
 	// --- July 2026 ---
 	"2026-07-04": {
