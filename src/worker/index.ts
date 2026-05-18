@@ -612,6 +612,34 @@ const WEEKLY_TRACK_SCHEDULE: Record<string, Partial<Record<CategoryKey, string>>
 		oldies: "596034712", // Stevie Wonder - You Are the Sunshine of My Life
 		modern: "1124841652", // Dua Lipa - Don't Start Now
 	},
+	"2026-05-11": {
+		oldies: "670997552", // The Who - Pinball Wizard
+		modern: "1126047002", // Ariana Grande - positions
+	},
+	"2026-05-12": {
+		oldies: "3826694", // Neil Young - Heart of Gold
+		modern: "803010392", // Billie Eilish - everything i wanted
+	},
+	"2026-05-13": {
+		oldies: "661218", // The Pretenders - Brass in Pocket
+		modern: "384157591", // Tyler, the Creator - See You Again
+	},
+	"2026-05-14": {
+		oldies: "725620", // Four Seasons - Big Girls Don't Cry
+		modern: "1529509482", // Ed Sheeran - Overpass Graffiti
+	},
+	"2026-05-15": {
+		oldies: "1124103", // Elton John - Crocodile Rock
+		modern: "830336912", // Harry Styles - Golden
+	},
+	"2026-05-16": {
+		oldies: "538646262", // Rod Stewart - Maggie May
+		modern: "1378342582", // Olivia Rodrigo - traitor
+	},
+	"2026-05-17": {
+		oldies: "3788403772", // The Kinks - Lola
+		modern: "137726975", // Post Malone - White Iverson
+	},
 
 	// --- July 2026 ---
 	"2026-07-04": {
