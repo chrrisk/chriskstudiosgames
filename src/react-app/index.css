@@ -22,11 +22,11 @@ body {
 }
 
 a {
-	color: #c792ff;
+	color: #ff7b2c;
 	text-decoration: none;
 	transition: color 0.2s ease;
 }
 
 a:hover {
-	color: #ff7c7c;
+	color: #ff9550;
 }

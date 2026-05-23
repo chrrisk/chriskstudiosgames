@@ -925,7 +925,7 @@ const getCategoryStatus = (key: CategoryKey): CategoryStatus => {
 					})}
 				</div>
 				<p className="lab-hint">
-					{formatSecondsLabel(currentSnippetLength)}s unlocked of {formatSecondsLabel(totalSnippetLength)}s total
+					{formatSecondsLabel(currentSnippetLength)}/{formatSecondsLabel(totalSnippetLength)}s
 				</p>
 			</div>
 			<div className="lab-controls">
@@ -1055,21 +1055,6 @@ const getCategoryStatus = (key: CategoryKey): CategoryStatus => {
 			<footer className="play-footer">
 				<p>© ChrisK Studios 2026</p>
 			</footer>
-			{allCategoriesFinished ? (
-				<div className="share-results-fixed">
-				<button
-					className="share-results-btn"
-					type="button"
-					onClick={() => {
-						playClick();
-						void handleShareResults("floating");
-					}}
-				>
-					Share results 🎵✨
-				</button>
-					{shareFeedback?.context === "floating" ? <p className="share-feedback">{shareFeedback.message}</p> : null}
-				</div>
-			) : null}
 			{completionModal ? (
 				<div className="modal-backdrop" role="dialog" aria-modal="true">
 					<div className="modal">
