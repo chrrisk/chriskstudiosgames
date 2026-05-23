@@ -247,7 +247,7 @@ function SongGameLab() {
 	const isWinner = winners[activeCategory] ?? false;
 	const selectedTrack = selectedTracks[activeCategory] ?? null;
 	const isFailed = failures[activeCategory] ?? false;
-	const allCategoriesFinished = availableCategories.every((key) => winners[key] || failures[key]);
+
 	const query = categoryQueries[activeCategory];
 	const tracks = categoryTracks[activeCategory];
 
@@ -600,15 +600,6 @@ useEffect(() => {
 		audio.currentTime = 0;
 		audio.volume = volume;
 		void audio.play().catch(() => undefined);
-	};
-
-	const openArchive = () => {
-		playClick();
-		setIsArchiveOpen(true);
-		setArchiveError(null);
-		if (!archiveDateKey) {
-			setArchiveDateKey(dateKey);
-		}
 	};
 
 	const handlePlaySnippet = () => {
