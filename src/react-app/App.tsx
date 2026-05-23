@@ -4,6 +4,7 @@ import clickSound from "./assets/click-soft.wav";
 import playLogo from "./assets/play-logo.png";
 
 const secretPath = "/songgame";
+const colorSecretPath = "/colorgame";
 const defaultFavicon =
 	"data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20viewBox%3D%270%200%20100%20100%27%3E%3Ctext%20y%3D%27.9em%27%20font-size%3D%2790%27%3E%F0%9F%8E%AE%3C/text%3E%3C/svg%3E";
 const labFavicon =
@@ -84,19 +85,9 @@ const snippetDurations = [0.5, 1, 2, 5, 10, 15];
 const FULL_REVEAL_DURATION = 30;
 const STORAGE_KEY = "songgame-daily-state";
 
-const games = [
-	{
-		title: "songgame",
-		tagline: "Daily guess the song challenge.",
-		actionLabel: "Play songgame",
-		onSelect: () => "modal",
-	},
-	{
-		title: "More to come",
-		tagline: "More games are a work in progress.",
-		actionLabel: "-",
-		onSelect: () => "placeholder",
-	},
+const games: Array<{ title: string; tagline: string; actionLabel: string; path: string | null }> = [
+	{ title: "songgame", tagline: "Daily guess the song challenge.", actionLabel: "Play songgame", path: secretPath },
+	{ title: "colorgame", tagline: "Memorize a color and recreate it from memory.", actionLabel: "Play colorgame", path: colorSecretPath },
 ];
 
 function App() {
@@ -127,10 +118,12 @@ function App() {
 	}
 
 	const playClick = useClickSound();
-	const [showModal, setShowModal] = useState(false);
 	const isSecretRoute =
 		typeof window !== "undefined" &&
 		window.location.pathname.replace(/\/$/, "") === secretPath.replace(/\/$/, "");
+	const isColorRoute =
+		typeof window !== "undefined" &&
+		window.location.pathname.replace(/\/$/, "") === colorSecretPath.replace(/\/$/, "");
 
 	useEffect(() => {
 		if (typeof document === "undefined") return;
@@ -147,6 +140,9 @@ function App() {
 
 	if (isSecretRoute) {
 		return <SongGameLab />;
+	}
+	if (isColorRoute) {
+		return <ColorGame />;
 	}
 
 	return (
@@ -177,17 +173,14 @@ function App() {
 									<h3>{game.title}</h3>
 									<p>{game.tagline}</p>
 								</div>
-								{game.onSelect() === "modal" ? (
-									<button
-										className="primary-btn"
-										type="button"
-										onClick={() => {
-											playClick();
-											setShowModal(true);
-										}}
+								{game.path ? (
+									<a
+										className="primary-btn modal-link"
+										href={game.path}
+										onClick={playClick}
 									>
 										{game.actionLabel}
-									</button>
+									</a>
 								) : (
 									<button className="ghost-btn" type="button" disabled>
 										{game.actionLabel}
@@ -198,31 +191,8 @@ function App() {
 					</div>
 				</section>
 			</main>
-			{showModal ? (
-				<div className="modal-backdrop" role="dialog" aria-modal="true">
-					<div className="modal">
-						<h3>Heads up — beta build</h3>
-						<p>This game is still being worked on.</p>
-						<div className="modal-actions">
-							<a className="primary-btn beta-action modal-link" href={secretPath} onClick={playClick}>
-								Start anyway
-							</a>
-							<button
-								className="ghost-btn"
-								type="button"
-								onClick={() => {
-									playClick();
-									setShowModal(false);
-								}}
-							>
-								Close
-							</button>
-						</div>
-					</div>
-				</div>
-			) : null}
 			<footer className="play-footer">
-				<p>© ChrisK Studios 2025</p>
+				<p>© ChrisK Studios 2026</p>
 			</footer>
 		</div>
 	);
@@ -856,9 +826,6 @@ const getCategoryStatus = (key: CategoryKey): CategoryStatus => {
 					</div>
 				</a>
 				<div className="header-actions">
-					<button className="ghost-btn archive-btn" type="button" onClick={openArchive}>
-						Archive
-					</button>
 					<div className="reset-countdown">
 						<span>Next songs in</span>
 						<strong>{resetCountdown}</strong>
@@ -1086,7 +1053,7 @@ const getCategoryStatus = (key: CategoryKey): CategoryStatus => {
 		</section>
 	</main>
 			<footer className="play-footer">
-				<p>© ChrisK Studios 2025</p>
+				<p>© ChrisK Studios 2026</p>
 			</footer>
 			{allCategoriesFinished ? (
 				<div className="share-results-fixed">
@@ -1401,6 +1368,260 @@ function formatArchiveMonthLabel(monthKey: string) {
 		month: "long",
 		year: "numeric",
 	}).format(date);
+}
+
+// ─── Color Game ───────────────────────────────────────────────────────────────
+
+const COLOR_GAME_ROUNDS = 5;
+const MEMORIZE_SECONDS = 4;
+
+type ColorHSL = { h: number; s: number; l: number };
+type ColorPhase = "memorize" | "guess" | "result" | "complete";
+
+function ColorGame() {
+	const playClick = useClickSound();
+	const [round, setRound] = useState(1);
+	const [phase, setPhase] = useState<ColorPhase>("memorize");
+	const [target, setTarget] = useState<ColorHSL>(() => randomColorHSL());
+	const [guess, setGuess] = useState<ColorHSL>({ h: 180, s: 50, l: 50 });
+	const [timeLeft, setTimeLeft] = useState(MEMORIZE_SECONDS);
+	const [roundScores, setRoundScores] = useState<number[]>([]);
+	const [lastScore, setLastScore] = useState(0);
+	const cgTimerRef = useRef<number | null>(null);
+
+	useEffect(() => {
+		if (phase !== "memorize") return;
+		setTimeLeft(MEMORIZE_SECONDS);
+		cgTimerRef.current = window.setInterval(() => {
+			setTimeLeft((prev) => {
+				if (prev <= 1) {
+					if (cgTimerRef.current) window.clearInterval(cgTimerRef.current);
+					setPhase("guess");
+					return 0;
+				}
+				return prev - 1;
+			});
+		}, 1000);
+		return () => {
+			if (cgTimerRef.current) window.clearInterval(cgTimerRef.current);
+		};
+	}, [phase, round]);
+
+	const handleSubmitGuess = () => {
+		playClick();
+		const score = scoreColorGuess(target, guess);
+		setLastScore(score);
+		setRoundScores((prev) => [...prev, score]);
+		setPhase("result");
+	};
+
+	const handleNextRound = () => {
+		playClick();
+		if (round >= COLOR_GAME_ROUNDS) {
+			setPhase("complete");
+		} else {
+			setRound((r) => r + 1);
+			setTarget(randomColorHSL());
+			setGuess({ h: 180, s: 50, l: 50 });
+			setPhase("memorize");
+		}
+	};
+
+	const handleRestartGame = () => {
+		playClick();
+		setRound(1);
+		setRoundScores([]);
+		setLastScore(0);
+		setTarget(randomColorHSL());
+		setGuess({ h: 180, s: 50, l: 50 });
+		setPhase("memorize");
+	};
+
+	const totalScore = roundScores.length
+		? Math.round(roundScores.reduce((a, b) => a + b, 0) / roundScores.length)
+		: 0;
+
+	return (
+		<div className="play-shell">
+			<header className="play-header">
+				<a className="brand" href="/" onClick={playClick}>
+					<img src={playLogo} alt="ChrisK Studios logo" />
+					<div>
+						<p className="brand-label">ChrisK Studios</p>
+						<h1>colorgame by ChrisK</h1>
+					</div>
+				</a>
+				<div className="header-actions">
+					<div className="reset-countdown">
+						<span>Round</span>
+						<strong>{phase === "complete" ? "done" : `${round} / ${COLOR_GAME_ROUNDS}`}</strong>
+					</div>
+				</div>
+			</header>
+			<main className="doc lab-doc">
+				<section className="doc-card cg-card">
+					{phase === "memorize" && (
+						<>
+							<p className="eyebrow">Round {round} of {COLOR_GAME_ROUNDS}</p>
+							<h2 className="cg-title">Memorize this color</h2>
+							<p className="lab-hint">{timeLeft}s remaining</p>
+							<div className="cg-swatch-wrap">
+								<div className="cg-swatch" style={{ background: hslStr(target) }} />
+								<div className="cg-timer-bar">
+									<div className="cg-timer-fill" style={{ width: `${(timeLeft / MEMORIZE_SECONDS) * 100}%` }} />
+								</div>
+							</div>
+						</>
+					)}
+
+					{phase === "guess" && (
+						<>
+							<p className="eyebrow">Round {round} of {COLOR_GAME_ROUNDS}</p>
+							<h2 className="cg-title">Recreate the color</h2>
+							<p className="lab-hint">Adjust the sliders to match what you saw.</p>
+							<div className="cg-guess-layout">
+								<div className="cg-preview-swatch" style={{ background: hslStr(guess) }} />
+								<div className="cg-sliders">
+									<div className="cg-slider-row">
+										<label className="cg-label">Brightness <span>{guess.l}%</span></label>
+										<input
+											type="range"
+											className="cg-slider"
+											min="0"
+											max="100"
+											value={guess.l}
+											onChange={(e) => setGuess((prev) => ({ ...prev, l: Number(e.target.value) }))}
+											style={{ background: `linear-gradient(to right, hsl(${guess.h}, ${guess.s}%, 0%), hsl(${guess.h}, ${guess.s}%, 50%), hsl(${guess.h}, ${guess.s}%, 100%))` }}
+										/>
+									</div>
+									<div className="cg-slider-row">
+										<label className="cg-label">Saturation <span>{guess.s}%</span></label>
+										<input
+											type="range"
+											className="cg-slider"
+											min="0"
+											max="100"
+											value={guess.s}
+											onChange={(e) => setGuess((prev) => ({ ...prev, s: Number(e.target.value) }))}
+											style={{ background: `linear-gradient(to right, hsl(${guess.h}, 0%, ${guess.l}%), hsl(${guess.h}, 100%, ${guess.l}%))` }}
+										/>
+									</div>
+									<div className="cg-slider-row">
+										<label className="cg-label">Hue <span>{guess.h}°</span></label>
+										<input
+											type="range"
+											className="cg-slider cg-hue-slider"
+											min="0"
+											max="359"
+											value={guess.h}
+											onChange={(e) => setGuess((prev) => ({ ...prev, h: Number(e.target.value) }))}
+										/>
+									</div>
+								</div>
+							</div>
+							<button className="primary-btn" type="button" onClick={handleSubmitGuess}>
+								Submit guess
+							</button>
+						</>
+					)}
+
+					{phase === "result" && (
+						<>
+							<p className="eyebrow">Round {round} of {COLOR_GAME_ROUNDS}</p>
+							<h2 className="cg-title">
+								{lastScore >= 90 ? "Excellent!" : lastScore >= 70 ? "Nice!" : lastScore >= 50 ? "Not bad" : "Keep practicing"}
+							</h2>
+							<div className="cg-result-swatches">
+								<div className="cg-result-col">
+									<div className="cg-swatch cg-swatch-sm" style={{ background: hslStr(guess) }} />
+									<p className="cg-swatch-label">Your guess</p>
+								</div>
+								<div className="cg-result-sep">vs</div>
+								<div className="cg-result-col">
+									<div className="cg-swatch cg-swatch-sm" style={{ background: hslStr(target) }} />
+									<p className="cg-swatch-label">Target</p>
+								</div>
+							</div>
+							<p className="lab-hint" style={{ margin: "0.75rem 0" }}>
+								Score: <strong style={{ color: cgScoreColor(lastScore), fontSize: "1.1rem" }}>{lastScore}%</strong>
+							</p>
+							<div className="lab-controls">
+								<button className="primary-btn" type="button" onClick={handleNextRound}>
+									{round >= COLOR_GAME_ROUNDS ? "See final score" : "Next round →"}
+								</button>
+							</div>
+						</>
+					)}
+
+					{phase === "complete" && (
+						<>
+							<h2 className="cg-title">Final score</h2>
+							<p className="lab-hint" style={{ marginBottom: "1rem" }}>
+								Average: <strong style={{ color: cgScoreColor(totalScore), fontSize: "1.5rem" }}>{totalScore}%</strong>
+							</p>
+							<ul className="cg-score-list">
+								{roundScores.map((score, i) => (
+									<li key={i} className="cg-score-row">
+										<span>Round {i + 1}</span>
+										<div className="cg-score-bar-wrap">
+											<div className="cg-score-bar" style={{ width: `${score}%`, background: cgScoreGradient(score) }} />
+										</div>
+										<span style={{ color: cgScoreColor(score), fontWeight: 600 }}>{score}%</span>
+									</li>
+								))}
+							</ul>
+							<div className="lab-controls" style={{ marginTop: "1.5rem" }}>
+								<button className="primary-btn" type="button" onClick={handleRestartGame}>
+									Play again
+								</button>
+								<a className="ghost-btn" href="/" onClick={playClick} style={{ textDecoration: "none", display: "inline-flex", alignItems: "center", justifyContent: "center" }}>
+									Back to games
+								</a>
+							</div>
+						</>
+					)}
+				</section>
+			</main>
+			<footer className="play-footer">
+				<p>© ChrisK Studios 2026</p>
+			</footer>
+		</div>
+	);
+}
+
+function randomColorHSL(): ColorHSL {
+	return {
+		h: Math.floor(Math.random() * 360),
+		s: Math.floor(Math.random() * 85) + 10,
+		l: Math.floor(Math.random() * 70) + 10,
+	};
+}
+
+function hslStr({ h, s, l }: ColorHSL): string {
+	return `hsl(${h}, ${s}%, ${l}%)`;
+}
+
+function scoreColorGuess(target: ColorHSL, guess: ColorHSL): number {
+	const hueDiff = Math.min(Math.abs(target.h - guess.h), 360 - Math.abs(target.h - guess.h));
+	const hueScore = 1 - hueDiff / 180;
+	const satScore = 1 - Math.abs(target.s - guess.s) / 100;
+	const lightScore = 1 - Math.abs(target.l - guess.l) / 100;
+	const weighted = hueScore * 0.5 + satScore * 0.25 + lightScore * 0.25;
+	return Math.round(Math.pow(weighted, 2) * 100);
+}
+
+function cgScoreColor(score: number): string {
+	if (score >= 90) return "#6ef4c5";
+	if (score >= 70) return "#80c4ff";
+	if (score >= 50) return "#ffb864";
+	return "#ff9b9b";
+}
+
+function cgScoreGradient(score: number): string {
+	if (score >= 90) return "linear-gradient(90deg, #6ef4c5, #4da1ff)";
+	if (score >= 70) return "linear-gradient(90deg, #4da1ff, #c792ff)";
+	if (score >= 50) return "linear-gradient(90deg, #ffb864, #ff9b9b)";
+	return "linear-gradient(90deg, #ff6b6b, #ff9b9b)";
 }
 
 function useClickSound() {
