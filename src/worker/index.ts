@@ -640,6 +640,34 @@ const WEEKLY_TRACK_SCHEDULE: Record<string, Partial<Record<CategoryKey, string>>
 		oldies: "3788403772", // The Kinks - Lola
 		modern: "137726975", // Post Malone - White Iverson
 	},
+	"2026-05-18": {
+		oldies: "121716038", // Deep Purple - Smoke on the Water
+		modern: "1410738172", // Doja Cat - Kiss Me More
+	},
+	"2026-05-19": {
+		oldies: "9914834", // The Rolling Stones - Gimme Shelter
+		modern: "1449740572", // Billie Eilish - NDA
+	},
+	"2026-05-20": {
+		oldies: "582022442", // Bruce Springsteen - Born to Run
+		modern: "456965032", // Kendrick Lamar - All the Stars
+	},
+	"2026-05-21": {
+		oldies: "2508621011", // Bob Seger - Night Moves
+		modern: "136889434", // The Weeknd - I Feel It Coming
+	},
+	"2026-05-22": {
+		oldies: "2431707315", // Aerosmith - Dream On
+		modern: "911712382", // Dua Lipa - Break My Heart
+	},
+	"2026-05-23": {
+		oldies: "104760756", // Cheap Trick - I Want You to Want Me
+		modern: "1756569567", // Harry Styles - Music for a Sushi Restaurant
+	},
+	"2026-05-24": {
+		oldies: "541866052", // The Allman Brothers Band - Ramblin' Man
+		modern: "533609392", // Drake - In My Feelings
+	},
 
 	// --- July 2026 ---
 	"2026-07-04": {
