@@ -668,6 +668,34 @@ const WEEKLY_TRACK_SCHEDULE: Record<string, Partial<Record<CategoryKey, string>>
 		oldies: "541866052", // The Allman Brothers Band - Ramblin' Man
 		modern: "533609392", // Drake - In My Feelings
 	},
+	"2026-05-25": {
+		oldies: "97098410", // Van Halen - Jump
+		modern: "857206512", // Lizzo - Good as Hell
+	},
+	"2026-05-26": {
+		oldies: "82159934", // Steve Miller Band - The Joker
+		modern: "1283264142", // Lil Nas X - MONTERO (Call Me By Your Name)
+	},
+	"2026-05-27": {
+		oldies: "588236372", // Tom Petty - Runnin' Down a Dream
+		modern: "1410738082", // Doja Cat - Need to Know
+	},
+	"2026-05-28": {
+		oldies: "598080652", // The Temptations - Ain't Too Proud to Beg
+		modern: "1564465082", // BTS - Dynamite
+	},
+	"2026-05-29": {
+		oldies: "15636886", // Earth, Wind & Fire - Shining Star
+		modern: "142986206", // Ed Sheeran - Perfect
+	},
+	"2026-05-30": {
+		oldies: "576183", // Hall & Oates - Sara Smile
+		modern: "1378342612", // Olivia Rodrigo - deja vu
+	},
+	"2026-05-31": {
+		oldies: "468253402", // The Righteous Brothers - Unchained Melody
+		modern: "366297921", // Dua Lipa - New Rules
+	},
 
 	// --- July 2026 ---
 	"2026-07-04": {
