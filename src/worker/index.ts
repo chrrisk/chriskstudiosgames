@@ -697,6 +697,36 @@ const WEEKLY_TRACK_SCHEDULE: Record<string, Partial<Record<CategoryKey, string>>
 		modern: "366297921", // Dua Lipa - New Rules
 	},
 
+	// --- June 2026 ---
+	"2026-06-01": {
+		oldies: "2794416", // James Taylor - You've Got a Friend
+		modern: "1280165212", // Justin Bieber - Ghost
+	},
+	"2026-06-02": {
+		oldies: "119819698", // Carole King - I Feel the Earth Move
+		modern: "973317062", // Lady Gaga & Ariana Grande - Rain on Me
+	},
+	"2026-06-03": {
+		oldies: "2133614", // Aretha Franklin - Chain of Fools
+		modern: "2459517745", // Doja Cat - Agora Hills
+	},
+	"2026-06-04": {
+		oldies: "3090950", // Wilson Phillips - Hold On
+		modern: "1457107762", // The Weeknd - Take My Breath
+	},
+	"2026-06-05": {
+		oldies: "3156285", // Don McLean - American Pie
+		modern: "1126047052", // Ariana Grande - 34+35
+	},
+	"2026-06-06": {
+		oldies: "145434430", // Neil Diamond - Sweet Caroline
+		modern: "1050306812", // Drake - Laugh Now Cry Later
+	},
+	"2026-06-07": {
+		oldies: "6599483", // Paul Simon - You Can Call Me Al
+		modern: "830337012", // Harry Styles - Treat People With Kindness
+	},
+
 	// --- July 2026 ---
 	"2026-07-04": {
 		oldies: "15586213", // Bruce Springsteen - Born in the U.S.A.
