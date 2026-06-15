@@ -726,6 +726,34 @@ const WEEKLY_TRACK_SCHEDULE: Record<string, Partial<Record<CategoryKey, string>>
 		oldies: "6599483", // Paul Simon - You Can Call Me Al
 		modern: "830337012", // Harry Styles - Treat People With Kindness
 	},
+	"2026-06-08": {
+		oldies: "84885581", // Dire Straits - Money for Nothing
+		modern: "1449727422", // Billie Eilish - Oxytocin
+	},
+	"2026-06-09": {
+		oldies: "15194531", // Wham! - Wake Me Up Before You Go-Go
+		modern: "1124841702", // Dua Lipa - Hallucinate
+	},
+	"2026-06-10": {
+		oldies: "723861", // Madonna - Material Girl
+		modern: "1378342632", // Olivia Rodrigo - enough for you
+	},
+	"2026-06-11": {
+		oldies: "15586296", // Michael Jackson - Don't Stop 'Til You Get Enough
+		modern: "1749598187", // Post Malone - Cooped Up
+	},
+	"2026-06-12": {
+		oldies: "68097823", // Eagles - Desperado
+		modern: "1580983462", // BTS - Boy With Luv
+	},
+	"2026-06-13": {
+		oldies: "598080632", // The Temptations - Get Ready
+		modern: "1378342642", // Olivia Rodrigo - happier
+	},
+	"2026-06-14": {
+		oldies: "2319297", // Stevie Wonder - Higher Ground
+		modern: "1280165112", // Justin Bieber - 2 Much
+	},
 
 	// --- July 2026 ---
 	"2026-07-04": {
