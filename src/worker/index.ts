@@ -754,6 +754,34 @@ const WEEKLY_TRACK_SCHEDULE: Record<string, Partial<Record<CategoryKey, string>>
 		oldies: "2319297", // Stevie Wonder - Higher Ground
 		modern: "1280165112", // Justin Bieber - 2 Much
 	},
+	"2026-06-15": {
+		oldies: "2806039672", // Prince - When Doves Cry
+		modern: "1550966362", // Taylor Swift - 22
+	},
+	"2026-06-16": {
+		oldies: "1131194", // Whitney Houston - Greatest Love of All
+		modern: "1741494487", // Bad Bunny - Un Verano Sin Ti
+	},
+	"2026-06-17": {
+		oldies: "5674744", // Johnny Cash - Man in Black
+		modern: "797228432", // Doja Cat - Won't Bite
+	},
+	"2026-06-18": {
+		oldies: "2133603", // Aretha Franklin - Do Right Woman
+		modern: "1040154612", // Glass Animals - Your Love (Déjà Vu)
+	},
+	"2026-06-19": {
+		oldies: "534508", // Sly & the Family Stone - Everyday People
+		modern: "3399879441", // Morgan Wallen - Sand in My Boots
+	},
+	"2026-06-20": {
+		oldies: "1786547927", // The Beach Boys - California Girls
+		modern: "417673222", // Niall Horan - Slow Hands
+	},
+	"2026-06-21": {
+		oldies: "131271116", // Chuck Berry - Johnny B. Goode
+		modern: "699056262", // Lil Nas X - Old Town Road
+	},
 
 	// --- July 2026 ---
 	"2026-07-04": {
