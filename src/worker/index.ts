@@ -782,6 +782,34 @@ const WEEKLY_TRACK_SCHEDULE: Record<string, Partial<Record<CategoryKey, string>>
 		oldies: "131271116", // Chuck Berry - Johnny B. Goode
 		modern: "699056262", // Lil Nas X - Old Town Road
 	},
+	"2026-06-22": {
+		oldies: "13177282", // Buddy Guy - Damn Right, I've Got the Blues
+		modern: "482990352", // Dua Lipa - One Kiss
+	},
+	"2026-06-23": {
+		oldies: "2521399", // The Righteous Brothers - You've Lost That Lovin' Feelin'
+		modern: "1053765212", // Taylor Swift - The 1
+	},
+	"2026-06-24": {
+		oldies: "3120266", // Tina Turner - What's Love Got to Do With It
+		modern: "1445417732", // The Kid LAROI - Without You
+	},
+	"2026-06-25": {
+		oldies: "921945612", // Bobby Brown - Every Little Step
+		modern: "637121542", // Doja Cat - Juicy
+	},
+	"2026-06-26": {
+		oldies: "921971482", // New Edition - If It Isn't Love
+		modern: "137726981", // Post Malone - Go Flex
+	},
+	"2026-06-27": {
+		oldies: "13183903", // The O'Jays - Love Train
+		modern: "142986200", // Ed Sheeran - Castle on the Hill
+	},
+	"2026-06-28": {
+		oldies: "487484172", // Earth, Wind & Fire - After the Love Has Gone
+		modern: "637121552", // Doja Cat - Tia Tamera
+	},
 
 	// --- July 2026 ---
 	"2026-07-04": {
