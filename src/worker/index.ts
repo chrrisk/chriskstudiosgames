@@ -810,6 +810,14 @@ const WEEKLY_TRACK_SCHEDULE: Record<string, Partial<Record<CategoryKey, string>>
 		oldies: "487484172", // Earth, Wind & Fire - After the Love Has Gone
 		modern: "637121552", // Doja Cat - Tia Tamera
 	},
+	"2026-06-29": {
+		oldies: "1182497", // The Supremes - Baby Love
+		modern: "360301961", // Harry Styles - Carolina
+	},
+	"2026-06-30": {
+		oldies: "676011672", // Stevie Wonder - Isn't She Lovely
+		modern: "2440763165", // Olivia Rodrigo - lacy
+	},
 
 	// --- July 2026 ---
 	"2026-07-04": {
