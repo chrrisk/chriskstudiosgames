@@ -212,7 +212,6 @@ const WEEKLY_TRACK_SCHEDULE: Record<string, Partial<Record<CategoryKey, string>>
 		oldies: "88845911", // Tears For Fears - Everybody Wants To Rule The World
 		modern: "2055292027", // SZA - Kill Bill
 	},
-
 	// --- February 2026 ---
 	"2026-02-02": {
 		oldies: "406815322", // Bee Gees - Stayin' Alive
@@ -322,7 +321,6 @@ const WEEKLY_TRACK_SCHEDULE: Record<string, Partial<Record<CategoryKey, string>>
 		oldies: "917931", // Lionel Richie - All Night Long (All Night)
 		modern: "2454854845", // Chappell Roan - Pink Pony Club
 	},
-
 	// --- March 2026 ---
 	"2026-03-01": {
 		oldies: "4399648", // The Jackson 5 - I Want You Back
@@ -448,7 +446,6 @@ const WEEKLY_TRACK_SCHEDULE: Record<string, Partial<Record<CategoryKey, string>>
 		oldies: "63480977", // Elvis Presley - Suspicious Minds
 		modern: "862051992", // Dua Lipa - Physical
 	},
-
 	// --- April 2026 ---
 	"2026-04-01": {
 		oldies: "71647249", // Van Morrison - Brown Eyed Girl
@@ -570,7 +567,6 @@ const WEEKLY_TRACK_SCHEDULE: Record<string, Partial<Record<CategoryKey, string>>
 		oldies: "90265961", // Four Tops - Reach Out I'll Be There
 		modern: "1817599637", // Sabrina Carpenter - Nonsense
 	},
-
 	// --- May 2026 ---
 	"2026-05-01": {
 		oldies: "3923661", // Sam & Dave - Soul Man
@@ -696,7 +692,6 @@ const WEEKLY_TRACK_SCHEDULE: Record<string, Partial<Record<CategoryKey, string>>
 		oldies: "468253402", // The Righteous Brothers - Unchained Melody
 		modern: "366297921", // Dua Lipa - New Rules
 	},
-
 	// --- June 2026 ---
 	"2026-06-01": {
 		oldies: "2794416", // James Taylor - You've Got a Friend
@@ -818,7 +813,6 @@ const WEEKLY_TRACK_SCHEDULE: Record<string, Partial<Record<CategoryKey, string>>
 		oldies: "676011672", // Stevie Wonder - Isn't She Lovely
 		modern: "2440763165", // Olivia Rodrigo - lacy
 	},
-
 	// --- July 2026 ---
 	"2026-07-04": {
 		oldies: "15586213", // Bruce Springsteen - Born in the U.S.A.
@@ -836,7 +830,6 @@ const WEEKLY_TRACK_SCHEDULE: Record<string, Partial<Record<CategoryKey, string>>
 		oldies: "71433037", // Van Morrison - Moondance
 		modern: "1959441337", // SZA - Shirt
 	},
-
 	// --- August 2026 ---
 	"2026-08-01": {
 		oldies: "426703702", // Eagles - Life in the Fast Lane
@@ -858,7 +851,6 @@ const WEEKLY_TRACK_SCHEDULE: Record<string, Partial<Record<CategoryKey, string>>
 		oldies: "122210014", // John Lennon - Watching the Wheels
 		modern: "1794149487", // Drake - Jimmy Cooks
 	},
-
 	// --- September 2026 ---
 	"2026-09-05": {
 		oldies: "13167146", // Bob Dylan - Mr. Tambourine Man
@@ -876,7 +868,6 @@ const WEEKLY_TRACK_SCHEDULE: Record<string, Partial<Record<CategoryKey, string>>
 		oldies: "81001890", // Santana - Black Magic Woman
 		modern: "1741494307", // Bad Bunny - Me Porto Bonito
 	},
-
 	// --- October 2026 ---
 	"2026-10-03": {
 		oldies: "128846783", // Johnny Cash - Hurt
@@ -898,7 +889,6 @@ const WEEKLY_TRACK_SCHEDULE: Record<string, Partial<Record<CategoryKey, string>>
 		oldies: "1911181457", // Michael Jackson - Thriller (Halloween!)
 		modern: "655095992", // Billie Eilish - bury a friend
 	},
-
 	// --- November 2026 ---
 	"2026-11-07": {
 		oldies: "69070922", // Elvis Presley - Blue Suede Shoes
@@ -916,7 +906,6 @@ const WEEKLY_TRACK_SCHEDULE: Record<string, Partial<Record<CategoryKey, string>>
 		oldies: "2812992", // Joni Mitchell - Big Yellow Taxi
 		modern: "2477272471", // Noah Kahan - She Calls Me Back
 	},
-
 	// --- December 2026 (holiday season, cycling back through classics) ---
 	"2026-12-01": {
 		oldies: "426703682", // Eagles - Hotel California
